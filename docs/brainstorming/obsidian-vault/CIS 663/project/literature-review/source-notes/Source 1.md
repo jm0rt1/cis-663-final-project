@@ -38,9 +38,9 @@ Y. Taigman, M. Yang, M. Ranzato and L. Wolf, “DeepFace: Closing the gap to hum
 
 ## Related Notes
 
-- [[Deep Convolutional Networks]]
-- [[Face Alignment]]
+- [[../concepts/Deep Convolutional Networks]]
+- [[../concepts/Face Alignment]]
 - [[Large Scale Training]]
 - [[Convolutional Neural Networks]]
 - [[Facial Recognition Techniques]]
-- [[Performance Evaluation]]
+- [[../concepts/Performance Evaluation]]

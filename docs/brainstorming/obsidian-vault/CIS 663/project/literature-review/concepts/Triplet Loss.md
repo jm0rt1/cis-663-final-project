@@ -6,7 +6,7 @@ Key Points:
 - The objective of the Triplet Loss is to ensure that the anchor is closer to the positive example than it is to the negative example by a margin.
 - This function is used extensively in training models for face recognition, like FaceNet, where the embeddings of faces of the same person should be closer compared to faces of different people.
 
-- [[Source 15|Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A unified embedding for face recognition and clustering. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 815-823).]] This is the seminal paper where the concept of Triplet Loss was introduced in the context of face recognition. It introduces the FaceNet model that utilizes Triplet Loss to learn a compact embedding of face images.
+- [[../source-notes/Source 2|Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A unified embedding for face recognition and clustering. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 815-823).]] This is the seminal paper where the concept of Triplet Loss was introduced in the context of face recognition. It introduces the FaceNet model that utilizes Triplet Loss to learn a compact embedding of face images.
 
 - [[Source 16|Hermans, A., Beyer, L., & Leibe, B. (2017). In defense of the triplet loss for person re-identification. arXiv preprint arXiv:1703.07737.]] This paper discusses the application of Triplet Loss in the context of person re-identification, which is a related task to face recognition. It provides insights into the effectiveness and versatility of the Triplet Loss function.
 
