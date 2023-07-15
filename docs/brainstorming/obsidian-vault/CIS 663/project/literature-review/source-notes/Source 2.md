@@ -2,7 +2,7 @@
 
 ## Citation
 
-F. Schroff, D. Kalenichenko and J. Philbin, "FaceNet: A unified embedding for face recognition and clustering," _2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)_, Boston, MA, USA, 2015, pp. 815-823, doi: 10.1109/CVPR.2015.7298682.
+F. Schroff, D. Kalenichenko and J. Philbin, “FaceNet: A Unified Embedding for Face Recognition and Clustering,” 2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Boston, MA, USA, 2015, pp. 815-823, doi: 10.1109/CVPR.2015.7298682.
 
 ## Key Points
 

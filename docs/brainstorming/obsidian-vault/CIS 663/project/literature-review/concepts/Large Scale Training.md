@@ -7,7 +7,7 @@ Key Points:
 - Deep learning models for face recognition, like DeepFace and FaceNet, are often trained on large scale datasets to ensure their efficacy and robustness.
 
 
-- [[Source 11|Dean, J., Corrado, G., Monga, R., Chen, K., Devin, M., Le, Q. V., ... & Ng, A. Y. (2012). Large scale distributed deep networks. In Advances in neural information processing systems (pp. 1223-1231).]] This paper from Google presents a system for training large-scale neural networks on distributed systems, demonstrating the necessity and effectiveness of large-scale training for deep learning.
+- [[../source-notes/Source 11|Dean, J., Corrado, G., Monga, R., Chen, K., Devin, M., Le, Q. V., ... & Ng, A. Y. (2012). Large scale distributed deep networks. In Advances in neural information processing systems (pp. 1223-1231).]] This paper from Google presents a system for training large-scale neural networks on distributed systems, demonstrating the necessity and effectiveness of large-scale training for deep learning.
 
 - [[Source 12|Sun, Y., Chen, Y., Wang, X., & Tang, X. (2014). Deep learning face representation by joint identification-verification. In Advances in neural information processing systems (pp. 1988-1996).]] This paper presents a deep learning model for face recognition trained on a large-scale dataset, further emphasizing the importance of large-scale training in developing effective face recognition systems.
 
