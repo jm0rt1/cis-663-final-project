@@ -2,3 +2,6 @@ venv
 *.pyc
 */__pycache__/
 output/logs/
+
+# Obsidian.md ignores
+.obsidian
