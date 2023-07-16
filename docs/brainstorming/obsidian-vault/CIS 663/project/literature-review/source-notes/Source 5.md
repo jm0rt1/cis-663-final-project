@@ -1,4 +1,3 @@
-Here is a possible way to fill out the note taking template for source 5:
 
 # Source 5
 

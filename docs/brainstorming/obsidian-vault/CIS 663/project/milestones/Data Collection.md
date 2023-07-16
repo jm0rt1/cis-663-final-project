@@ -5,4 +5,4 @@ Refer to [[Biometrics Project Overview]] for sections on Equipment and Tools and
 - Detailed plan for data collection
 
 ## Source Identification
-[[../../Source Identification]]
+[[Source Identification]]
