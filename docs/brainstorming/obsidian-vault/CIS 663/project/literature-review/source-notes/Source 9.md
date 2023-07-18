@@ -28,5 +28,5 @@ C. Szegedy, W. Liu, Y. Jia, P. Sermanet, S. Reed, D. Anguelov et al., “Going d
 ## Related Notes
 
 - [[Source 8]] - A paper on a deep CNN for ImageNet classification
-- [[CNN]] - A note on the convolutional neural network technique
-- [[Inception]] - A note on the Inception network architecture
+- [[../concepts/Convolutional Neural Networks|CNN]] - A note on the convolutional neural network technique
+- [[../concepts/Inception]] - A note on the Inception network architecture

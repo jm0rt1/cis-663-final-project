@@ -30,5 +30,5 @@ Y. LeCun, L. Bottou, Y. Bengio and P. Haffner, “Gradient-based learning applie
 
 - [[Source 4]] - A paper on a face recognition technique based on eigenfaces
 - [[Source 5]] - A paper on a face verification system based on deep learning
-- [[Source 6]] - A paper on a face recognition system based on a unified embedding
+- [[Source 2]] - A paper on a face recognition system based on a unified embedding
 - [[Convolutional Neural Networks|CNN]] - A note on the convolutional neural network technique

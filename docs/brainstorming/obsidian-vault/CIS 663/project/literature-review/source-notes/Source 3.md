@@ -31,4 +31,4 @@ R. Chellappa, C. L. Wilson and S. Sirohey, "Human and machine recognition of fac
 
 - [[Source 1]] - A more recent survey on face recognition methods and challenges
 - [[Source 4]] - A paper on a specific face recognition technique based on eigenfaces
-- [[Face Recognition]] - A note on the general topic of face recognition
+- [[../concepts/Face Recognition]] - A note on the general topic of face recognition

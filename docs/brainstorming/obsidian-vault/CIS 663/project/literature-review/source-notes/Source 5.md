@@ -31,5 +31,5 @@ P. Sermanet, D. Eigen, X. Zhang, M. Mathieu, R. Fergus and Y. LeCun, “Overfeat
 
 - [[Source 8]] - A paper on a deep CNN for ImageNet classification
 - [[Source 9]] - A paper on a novel CNN architecture called Inception
-- [[CNN]] - A note on the convolutional neural network technique
+- [[../concepts/Convolutional Neural Networks|CNN]] - A note on the convolutional neural network technique
 - [[Image Recognition]] - A note on the general topic of image recognition

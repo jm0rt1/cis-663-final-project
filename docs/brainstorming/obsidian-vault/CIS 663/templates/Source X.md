@@ -2,7 +2,7 @@
 
 ## Citation
 
-- Full citation of the source in your chosen citation style (APA, MLA, Chicago, etc.)
+- Full citation of the source in your chosen citation style (IEEE)
 
 ## Key Points
 

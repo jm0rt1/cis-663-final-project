@@ -1,33 +1,37 @@
+Here is a possible way to fill out the template:
+
 # Source 6
 
 ## Citation
 
-F. Schroff, D. Kalenichenko and J. Philbin, “FaceNet: A unified embedding for face recognition and clustering,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 815-823, 2015.
+- Yang, H., Jia, X., Loy, C. C., & Robinson, P. (2015). An empirical study of recent face alignment methods. arXiv preprint arXiv:1511.05049.
 
 ## Key Points
 
-- The source presents a novel face recognition system called FaceNet, which uses a deep convolutional neural network (CNN) to learn a unified embedding of face images that is discriminative, compact, and generalizable.
-- The source proposes a new loss function called the triplet loss, which optimizes the CNN to minimize the distance between an anchor image and a positive image of the same person, and maximize the distance between the anchor image and a negative image of a different person.
-- The source evaluates the FaceNet system on several large-scale face datasets and shows that it achieves state-of-the-art results and surpasses human-level performance.
+- The authors provide a comprehensive evaluation of several state-of-the-art face alignment methods on the 300W dataset, using different evaluation metrics, face detectors, and experimental settings.
+- The authors propose a new evaluation metric, area under error distribution curve within a threshold (AUC), to measure the performance of face alignment methods more robustly and fairly.
+- The authors conduct face alignment sensitivity analysis with respect to face detection, on both synthetic and real data, using both off-the-shelf and re-trained models.
+- The authors identify factors that are important for achieving good performance and robustness in face alignment, such as data augmentation, model size, initialization, and tracking smoothness.
 
 ## Relevance to Our Project
 
-- This source is relevant for our project because it introduces one of the most efficient and effective face recognition systems in the literature. It helps us understand how deep learning can be used to learn a universal representation of face images that can be applied to various tasks such as verification, identification, and clustering.
-- This source also provides us with some useful insights into the design and optimization of the CNN architecture and the loss function, which can inspire our further improvement of our own system.
+- This source is important for our project because it provides a systematic and rigorous comparison of different face alignment methods, which can help us choose the best method for our application.
+- This source also provides insights into the challenges and limitations of current face alignment methods, and suggests possible directions for future improvement.
 
 ## Quotes
 
-- "We present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity." (p. 815)
-- "We introduce a novel loss function based on optimizing distances between triplets of images rather than pairs." (p. 816)
-- "Our method achieves state-of-the-art accuracy on all of the standard face recognition benchmarks, including LFW (99.63%), YouTube Faces DB (95.12%), and the recently released IARPA Janus Benchmark A (IJB-A) dataset with 91.9% TAR at FAR=0.1%." (p. 821)
-- "We also show that we can perform very well on the challenging task of clustering face images from unconstrained photos into identities." (p. 821)
+- "Face alignment is often served as an intermediate step in commonly used face analysis pipeline (face detection )face alignment )face recognition)." (p. 1)
+- "Despite the fact that most current face alignment methods [52], [49], [48], [5], [28], [40] build on top of face detection, few of them have discussed the face alignment sensitivity w.r.t face detection variation." (p. 1)
+- "We propose a new evaluation metric for face alignment on a set of images, i.e., area under error distribution curve within a threshold (AUC), given the fact that the traditional evaluation measure (mean error) is very sensitive to big alignment error." (p. 2)
+- "We extend the 300W database with more practical face detections to make fair comparison possible." (p. 2)
+- "We carry out face alignment sensitivity analysis w.r.t. face detection, on both synthetic and real data, using both off-the-shelf and re-trained models." (p. 2)
+- "We study factors that are particularly important to achieve good performance and provide suggestions for practical applications." (p. 2)
 
 ## Link to Full Text
 
-- https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Schroff_FaceNet_A_Unified_2015_CVPR_paper.pdf
+- https://arxiv.org/pdf/1511.05049.pdf
 
 ## Related Notes
 
-- [[Source 5]] - A paper on a face verification system based on deep learning
-- [[Convolutional Neural Networks|CNN]] - A note on the convolutional neural network technique
-- [[Triplet Loss]] - A note on the triplet loss function
+- [[Face Alignment]]
+- [[300W Dataset]]

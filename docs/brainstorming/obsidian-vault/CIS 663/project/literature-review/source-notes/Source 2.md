@@ -2,39 +2,35 @@
 
 ## Citation
 
-F. Schroff, D. Kalenichenko and J. Philbin, “FaceNet: A Unified Embedding for Face Recognition and Clustering,” 2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Boston, MA, USA, 2015, pp. 815-823, doi: 10.1109/CVPR.2015.7298682.
+F. Schroff, D. Kalenichenko and J. Philbin, “FaceNet: A unified embedding for face recognition and clustering,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 815-823, 2015.
 
 ## Key Points
 
-1. **Introduction of FaceNet**: The authors present FaceNet, a system that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity.
-
-2. **Triplet Loss Function**: The authors use a novel triplet loss function to train the network. The triplet consists of two matching face thumbnails and one non-matching face thumbnail.
-
-3. **Large Scale Training**: The model is trained on a large dataset of 200 million images of 8 million identities.
-
-4. **Superior Performance**: The authors demonstrate that the learned embeddings can be used for face recognition, verification, and clustering tasks, outperforming many state-of-the-art methods.
-
-## Critical Data or Evidence
-
-1. **Performance Metrics**: The FaceNet model achieves a new record accuracy of 99.63% on the LFW dataset, and 95.12% on the YouTube Faces DB.
-   
-2. **Robustness**: Through various evaluations, the authors illustrate that FaceNet embeddings are robust to pose, lighting, and expression variations.
+- The source presents a novel face recognition system called FaceNet, which uses a deep convolutional neural network (CNN) to learn a unified embedding of face images that is discriminative, compact, and generalizable.
+- The source proposes a new loss function called the triplet loss, which optimizes the CNN to minimize the distance between an anchor image and a positive image of the same person, and maximize the distance between the anchor image and a negative image of a different person.
+- The source evaluates the FaceNet system on several large-scale face datasets and shows that it achieves state-of-the-art results and surpasses human-level performance.
 
 ## Relevance to Our Project
 
-1. **Novel Approach**: The introduction of FaceNet provides us with an innovative perspective on tackling face recognition tasks. The idea of learning an embedding from face images to a compact Euclidean space where distances directly correspond to face similarity offers us a new avenue for model design.
-
-2. **Performance Benchmarking**: The excellent performance of FaceNet sets a high benchmark for face recognition systems and can guide our expectations and performance targets for our own project.
+- This source is relevant for our project because it introduces one of the most efficient and effective face recognition systems in the literature. It helps us understand how deep learning can be used to learn a universal representation of face images that can be applied to various tasks such as verification, identification, and clustering.
+- This source also provides us with some useful insights into the design and optimization of the CNN architecture and the loss function, which can inspire our further improvement of our own system.
 
 ## Quotes
 
-1. _"We present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity."_ (p. 815)
-2. _"In contrast to most current methods, which learn and extract features from the images, our system trains a network to directly optimize the embedding itself."_ (p. 817)
+- "We present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity." (p. 815)
+- "We introduce a novel loss function based on optimizing distances between triplets of images rather than pairs." (p. 816)
+- "Our method achieves state-of-the-art accuracy on all of the standard face recognition benchmarks, including LFW (99.63%), YouTube Faces DB (95.12%), and the recently released IARPA Janus Benchmark A (IJB-A) dataset with 91.9% TAR at FAR=0.1%." (p. 821)
+- "We also show that we can perform very well on the challenging task of clustering face images from unconstrained photos into identities." (p. 821)
 
 ## Link to Full Text
 
-[Full Text](https://ieeexplore.ieee.org/document/7298682)
+- https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Schroff_FaceNet_A_Unified_2015_CVPR_paper.pdf
 
+## Related Notes
+
+- [[Source 5]] - A paper on a face verification system based on deep learning
+- [[Convolutional Neural Networks|CNN]] - A note on the convolutional neural network technique
+- [[Triplet Loss]] - A note on the triplet loss function
 ## Related Notes
 
 - [[Face Embeddings]]

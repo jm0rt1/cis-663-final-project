@@ -32,3 +32,4 @@ M. Turk and A. Pentland, “Eigenfaces for recognition,” Journal of Cognitive 
 - [[Source 3]] - A survey on human and machine recognition of faces
 - [[PCA]] - A note on the principal component analysis technique
 - [[Face Perception]] - A note on the cognitive and neural processes involved in face perception
+- [[Eigenfaces]] - A note on the eigenface method for face recognition
