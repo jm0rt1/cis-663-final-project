@@ -10,6 +10,6 @@ Key Points:
 
 - [[Source 4|Turk, M., & Pentland, A. (1991). Eigenfaces for recognition. Journal of cognitive neuroscience, 3(1), 71-86.]] This paper introduces the Eigenfaces method, a foundational technique in machine face recognition that involves principal component analysis.
 
-- [[Source 5|Taigman, Y., Yang, M., Ranzato, M., & Wolf, L. (2014). DeepFace: Closing the gap to human-level performance in face verification. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1701-1708).]] This paper presents the DeepFace model, a significant advancement in face recognition that uses a deep convolutional neural network.
+- [[Source 1|Taigman, Y., Yang, M., Ranzato, M., & Wolf, L. (2014). DeepFace: Closing the gap to human-level performance in face verification. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1701-1708).]] This paper presents the DeepFace model, a significant advancement in face recognition that uses a deep convolutional neural network.
 
 - [[Source 2|Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A unified embedding for face recognition and clustering. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 815-823).]] This paper presents the FaceNet model, another significant advancement that uses a triplet loss function to learn a compact embedding of face images.

@@ -1,3 +1,4 @@
+# Convolutional Neural Networks
 Convolutional Neural Networks (CNNs) are a type of artificial neural network designed to process data with a grid-like topology, such as an image, which has the topology of a 2D grid of pixels.
 
 Key Points:
@@ -13,13 +14,12 @@ Key Points:
 
 - [[Source 9|Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., ... & Rabinovich, A. (2015). Going deeper with convolutions. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1-9).]] This paper introduces the GoogleNet (or Inception) architecture, which further increased the depth and complexity of CNNs.
 
-- [[../source-notes/Source 10|Taigman, Y., Yang, M., Ranzato, M., & Wolf, L. (2014). DeepFace: Closing the gap to human-level performance in face verification. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1701-1708).]] This paper presents the DeepFace model, which utilizes a 9-layer CNN architecture for face recognition tasks, demonstrating the application of CNNs in the field.
+- [[../source-notes/Source 1|Taigman, Y., Yang, M., Ranzato, M., & Wolf, L. (2014). DeepFace: Closing the gap to human-level performance in face verification. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1701-1708).]] This paper presents the DeepFace model, which utilizes a 9-layer CNN architecture for face recognition tasks, demonstrating the application of CNNs in the field.
 
 ## Code Examples
 
-
-### Create and train a simple CNN model using Keras
-#CodeExample
+### Create and train a simple CNN model using Keras 
+#CodeExample 
 ```python
 # Import the necessary modules
 import keras
