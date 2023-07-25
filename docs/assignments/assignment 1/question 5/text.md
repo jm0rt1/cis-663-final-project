@@ -1,6 +1,13 @@
-Given that we have already transformed the data to a binary matrix, let's proceed to detect the minutiae points using the Crossing Number (CN) concept. As discussed earlier, CN is used to identify ridge bifurcations (CN=3) and ridge endings (CN=1). It is calculated as half the sum of the absolute differences between pairs of consecutive pixels (b0,...,b7), taken in a clockwise direction.
+# Question 5
 
-Here's the Python code to find the minutiae points:
+## Introduction
+
+CN is used to identify ridge bifurcations (CN=3) and ridge endings (CN=1). It is calculated as half the sum of the absolute differences between pairs of consecutive pixels (b0,...,b7), taken in a clockwise direction.
+
+
+
+## Solution
+Here's the Python code to find the minutiae points for the provided matrix:
 
 ```python
 import numpy as np
@@ -18,6 +25,9 @@ matrix = np.array([
     [1, 0, 0, 0, 1, 1, 0, 0, 1, 0],
     [1, 0, 0, 1, 1, 1, 0, 1, 0, 0]
 ])
+
+# Invert the matrix
+matrix = np.logical_not(matrix).astype(int)
 
 # List to store minutiae points
 minutiae_points = []
@@ -40,6 +50,8 @@ for point in minutiae_points:
     print(f"Point {point[0]} is a {point[1]}")
 ```
 
-Please note that we are skipping the first and last rows/columns in the matrix as we can't get a full 3x3 submatrix centered around these points (as per your condition of ignoring edge-centered points). Also, this is a very basic method for detecting minutiae and doesn't handle any post-processing steps such as noise removal or false minutiae elimination.
+The analysis of the provided binary matrix begins by examining each pixel, while omitting the first and last rows and columns. This exclusion is necessary to obtain a full 3x3 submatrix centered around each examined point. Given this constraint, edge-centered points are ignored.
 
-Again, keep in mind that real-world fingerprint analysis is a lot more complex, and advanced techniques like image enhancement and thinning algorithms, use of machine learning, etc., are usually employed.
+The primary focus is on the pixels that represent ridges, as determined by the adopted convention of binary representation. These potential minutiae points are further examined by taking a 3x3 submatrix centered around each ridge pixel. This submatrix is flattened, and the Crossing Number (CN) is calculated.
+
+The Crossing Number represents a critical feature of the topography of the matrix. If a point has a Crossing Number of 1, it is a ridge ending. Conversely, if it has a Crossing Number of 3, it is a ridge bifurcation.

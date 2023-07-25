@@ -1,3 +1,5 @@
+# Question 3
+
 Given this table of values, we have the angle theta which seems to be given in degrees. The singularity of a local area in a fingerprint is typically defined by the changes in the local orientation (theta) of the ridges. In particular, singularities are often categorised into two types:
 
 1. **Whorl/Circular (Loop)**: This is where the local ridge orientation turns through a full 360 degrees. In terms of theta, you would see an increase or decrease of approximately 360 degrees as you traverse around the singularity.
