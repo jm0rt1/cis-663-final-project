@@ -1,3 +1,5 @@
+# Question 2
+
 a. Singularities in fingerprint recognition:
 In the field of fingerprint recognition, singularities are significant local structures in the ridge pattern of the fingerprint image, typically referring to ridge bifurcations (where one ridge splits into two) and ridge endings (where a ridge ends). These points are also known as minutiae. The spatial arrangement of these minutiae is unique for each individual, making it a key aspect in fingerprint recognition systems. Algorithms use these points to create a unique pattern or template, which can be used to match with stored templates for identification or verification.
 

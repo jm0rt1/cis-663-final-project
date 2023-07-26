@@ -1,3 +1,4 @@
+# Question 4
 Minutiae points, including bifurcation points and termination points, are features in fingerprint analysis. They are used in biometric systems for identifying individuals based on their unique fingerprint patterns. 
 
 Here's how you can describe a 3x3 binary pixel grid for a bifurcation point and a non-minutiae point:

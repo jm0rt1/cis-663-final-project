@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from dataclasses import dataclass
-import enum
 # Defining the data
 data = {'K': [0, 1, 2, 3, 4, 5, 6, 7],
         'theta': [80, 90, 260, 50, 110, 270, 130, 180]}
