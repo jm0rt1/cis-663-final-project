@@ -49,6 +49,19 @@ for i in range(1, matrix.shape[0] - 1):  # Ignore the first and last row
 for point in minutiae_points:
     print(f"Point {point[0]} is a {point[1]}")
 ```
+# Output
+    Point (1, 5) is a Ridge Bifurcation
+    Point (2, 8) is a Ridge Ending
+    Point (3, 5) is a Ridge Bifurcation
+    Point (4, 1) is a Ridge Bifurcation
+    Point (4, 2) is a Ridge Bifurcation
+    Point (5, 1) is a Ridge Bifurcation
+    Point (7, 4) is a Ridge Ending
+    Point (7, 7) is a Ridge Bifurcation
+    Point (7, 8) is a Ridge Bifurcation
+    Point (8, 2) is a Ridge Bifurcation
+    Point (8, 7) is a Ridge Bifurcation
+
 
 The analysis of the provided binary matrix begins by examining each pixel, while omitting the first and last rows and columns. This exclusion is necessary to obtain a full 3x3 submatrix centered around each examined point. Given this constraint, edge-centered points are ignored.
 

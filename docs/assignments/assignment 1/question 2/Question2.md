@@ -1,12 +1,12 @@
 # Question 2
 
-a. Singularities in fingerprint recognition:
+a. **Singularities in fingerprint recognition:**
 In the field of fingerprint recognition, singularities are significant local structures in the ridge pattern of the fingerprint image, typically referring to ridge bifurcations (where one ridge splits into two) and ridge endings (where a ridge ends). These points are also known as minutiae. The spatial arrangement of these minutiae is unique for each individual, making it a key aspect in fingerprint recognition systems. Algorithms use these points to create a unique pattern or template, which can be used to match with stored templates for identification or verification.
 
-b. Thinning in fingerprint feature extraction:
+b. **Thinning in fingerprint feature extraction:**
 The thinning process, also known as skeletonization, is a step in fingerprint feature extraction where the ridges of the fingerprint are transformed into a skeleton form. This is achieved by iteratively eroding the ridges until they are just one pixel wide. This process reduces the complexity of the image, making it easier to extract relevant features like minutiae while maintaining the overall structure of the ridges. The benefit of thinning is that it makes subsequent feature extraction and matching processes less computationally intensive and more accurate, as it eliminates noise and extraneous data.
 
-c. Local ridge orientation and frequency:
+c. **Local ridge orientation and frequency:**
 Local ridge orientation and frequency are crucial properties of a fingerprint image and are typically computed in the early stages of fingerprint image processing. Ridge orientation refers to the direction of the ridges in a localized region, and ridge frequency refers to the number of ridges present per unit length. 
 
 Computing these two features helps in several ways. Firstly, they allow for enhancement of the fingerprint image, making ridges clearer and improving overall image quality. They also provide a kind of 'macro' feature set, giving a broad-stroke description of the fingerprint which can be used for initial matching, improving speed and efficiency of the recognition process. Finally, knowledge of the local ridge orientation and frequency can aid in accurate localization and extraction of minutiae points, which are critical for the final stages of fingerprint matching.
