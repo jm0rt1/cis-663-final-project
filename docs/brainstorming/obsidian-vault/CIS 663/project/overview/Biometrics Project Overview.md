@@ -1,6 +1,6 @@
 # Overview
 - Project objectives
-- Timeline
+- [[../milestones/Timeline]]
 - Team members
 - [[Project Milestones]]
 - [[Equipment and Tools]]

@@ -10,6 +10,4 @@
 - [ ] Fill out notes for Source 2
 
 
-
-## Relevant Notes
-- [[Data Collection]]
+\
