@@ -44,7 +44,7 @@ class ExtendedFaceDataset(FaceDataset):
             if file.endswith('.jpg'):  # change this if your images are in a different format
                 img = Image.open(os.path.join(self.true_directory, file))
                 img = img.convert('L')  # convert image to grayscale
-                # change this to match LFW dataset size
+                # resize image to match LFW images size
                 img = img.resize((37, 50))
                 img_data = np.array(img).reshape(-1)  # flatten the image
                 self.images.append(img_data)
@@ -58,10 +58,11 @@ class ExtendedFaceDataset(FaceDataset):
         # Combine LFW images and your 'true' images
         combined_images = np.vstack((images, self.images))
         # Label all LFW images as 'false'
-        false_labels = np.zeros(n_samples, dtype=np.int)
+        # use np.int32 or np.int64
+        false_labels = np.zeros(n_samples, dtype=np.int32)
         # Combine labels
         combined_labels = np.concatenate((false_labels, self.labels))
-        return combined_images, combined_labels, self.dataset.target_names + ['You']
+        return combined_images, combined_labels, np.array(["Not You"] + ['You'])
 
 
 class CustomFaceDataset(BaseFaceDataset):

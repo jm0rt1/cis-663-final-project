@@ -28,13 +28,14 @@ class TestExtendedFaceDataset(unittest.TestCase):
 
     def test_get_data(self):
         images, labels, names = self.dataset.get_data()
+        label_set = set(labels)
         self.assertIsInstance(images, np.ndarray)
         self.assertIsInstance(labels, np.ndarray)
         self.assertIsInstance(names, np.ndarray)
         self.assertGreater(len(images), 0)
         self.assertEqual(len(images), len(labels))
         self.assertIn('You', names)
-        self.assertEqual(len(names), len(set(labels)) + 1)
+        self.assertEqual(len(names), len(set(labels)))
 
 
 class TestCustomFaceDataset(unittest.TestCase):
@@ -52,7 +53,7 @@ class TestCustomFaceDataset(unittest.TestCase):
         self.assertEqual(len(images), len(labels))
         self.assertIn('You', names)
         self.assertIn('Other', names)
-        self.assertEqual(len(names), len(set(labels)) + 1)
+        self.assertEqual(len(names), len(set(labels)))
 
 
 if __name__ == "__main__":
