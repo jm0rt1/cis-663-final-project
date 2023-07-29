@@ -44,10 +44,12 @@ class ExtendedFaceDataset(FaceDataset):
             if file.endswith('.jpg'):  # change this if your images are in a different format
                 img = Image.open(os.path.join(self.true_directory, file))
                 img = img.convert('L')  # convert image to grayscale
-                img = img.resize((62, 47))
-                img_data = np.array(img).reshape((62 * 47))
+                # change this to match LFW dataset size
+                img = img.resize((37, 50))
+                img_data = np.array(img).reshape(-1)  # flatten the image
                 self.images.append(img_data)
                 self.labels.append(1)  # label '1' for 'true'
+        self.images = np.array(self.images)
 
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
         # Overriding this function to label other faces as 'false'
@@ -65,7 +67,7 @@ class ExtendedFaceDataset(FaceDataset):
 class CustomFaceDataset(BaseFaceDataset):
     def __init__(self, directory: str):
         super().__init__()
-        self.names: List[str] = ["Other", "You"]
+        self.names: np.ndarray = np.array(["Other", "You"])
 
         for file in os.listdir(directory):
             if file.endswith('.jpg'):  # change this if your images are in a different format
