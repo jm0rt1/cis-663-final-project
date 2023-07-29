@@ -2,7 +2,6 @@
 
 ## Code
 
-
 Building a robust face recognition system with proper organization and unit tests would be quite a large task that would require designing and implementing several classes and modules, as well as extensive testing. Below is a simplified demonstration of how you might organize your code to adhere to the SOLID principles:
 
 We'll define several classes: `FaceDetector` to handle face detection, `FaceRecognizer` to handle face recognition, and `FaceDataset` to handle the dataset. We'll also define a function `run_experiment` to compare the accuracy of models trained on different numbers of images.
@@ -136,6 +135,84 @@ Note: This method saves and loads only the classifier (`clf`). If you also want 
 
 Also, you should be aware of the security risks associated with using pickle. Only load pickled data that was pickled by trusted sources. If you're sharing your models publicly, consider using a more secure format, like [ONNX](https://onnx.ai/) or [Joblib](https://joblib.readthedocs.io/en/latest/persistence.html).
 
+## Command Line Interface
+
+```python
+import argparse
+import enum
+from face_recognition import FaceRecognizer, load_images
+from sklearn.model_selection import train_test_split
+
+class Key(enum.Enum):
+    CLI = 'cli'
+    EPILOG = 'epilog'
+    COMMAND = 'command'
+    N_IMAGES = 'n_images'
+    MODEL_FILE = 'model_file'
+
+DESCRIPTIONS = {
+    Key.CLI: 'A Command Line Interface (CLI) for a face recognition task using the LFW dataset.',
+    Key.EPILOG: 'Ensure that you train the model before attempting to make predictions.',
+    Key.COMMAND: 'Specify the operation to perform. "train" trains the model on the specified number of images and saves the trained model. "predict" loads the saved model and uses it to predict the identities of the faces in the test set.',
+    Key.N_IMAGES: 'Specify the number of images to use for training. If not specified, all images are used.',
+    Key.MODEL_FILE: 'Specify the file to save the trained model to or load the trained model from. Default is "model.pkl".',
+}
+
+class FaceRecognitionCLI:
+
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(description=DESCRIPTIONS[Key.CLI], epilog=DESCRIPTIONS[Key.EPILOG])
+        self.parser.add_argument('command', choices=['train', 'predict'], help=DESCRIPTIONS[Key.COMMAND])
+        self.parser.add_argument('-n', '--n_images', type=int, help=DESCRIPTIONS[Key.N_IMAGES])
+        self.parser.add_argument('-f', '--model_file', default='model.pkl', help=DESCRIPTIONS[Key.MODEL_FILE])
+
+        self.args = self.parser.parse_args()
+        self.images, self.labels = load_images()
+
+        if self.args.n_images:
+            self.images = self.images[:self.args.n_images]
+            self.labels = self.labels[:self.args.n_images]
+        
+        self.train_images, self.test_images, self.train_labels, self.test_labels = train_test_split(self.images, self.labels, test_size=0.2, random_state=42)
+        self.recognizer = FaceRecognizer()
+
+    def train(self):
+        self.recognizer.train(self.train_images, self.train_labels)
+        self.recognizer.save_model(self.args.model_file)
+
+    def predict(self):
+        self.recognizer.load_model(self.args.model_file)
+        predictions = self.recognizer.predict(self.test_images)
+        print(predictions)
+
+    def run(self):
+        if self.args.command == 'train':
+            self.train()
+        elif self.args.command == 'predict':
+            self.predict()
+
+if __name__ == '__main__':
+    cli = FaceRecognitionCLI()
+    cli.run()
+```
+
+You can run this script from the command line like this:
+
+```
+python script.py train -n 20 -f my_model.pkl
+```
+
+This will train a model using the first 20 images and save it to `my_model.pkl`.
+
+You can then use the trained model to make predictions like this:
+
+```
+python script.py predict -f my_model.pkl
+```
+
+This will load the model from `my_model.pkl` and use it to predict the identities of the faces in the test set.
+
+Remember to replace `script.py` with the actual name of your script, and `my_model.pkl` with the name you want to give to your model file. Also, you can remove the `-n 20` option if you want to use all images for training.
 
 
 ### Details on the Experiment
