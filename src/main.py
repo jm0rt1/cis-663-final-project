@@ -45,5 +45,6 @@ def main() -> None:
     count = sum("true" in file for file in os.listdir(directory))
 
     for percentage in [5, 10, 15, 20, 25, 30, 70]:
+        print(f"Running experiment with {percentage}% true images...")
         run_experiment(calculate_n_components_to_add_from_lfw(
             count, percentage), directory)

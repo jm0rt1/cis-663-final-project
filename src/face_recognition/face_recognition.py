@@ -11,10 +11,25 @@ from src.face_recognition.data_set import ExtendedFaceDataset, FaceDataset
 
 
 class FaceDetector:
-    def __init__(self, cascade_file):
+    def __init__(self, cascade_file: str) -> None:
+        """
+        Initialize a face detector with a given cascade file.
+
+        Args:
+            cascade_file (str): Path to the cascade file.
+        """
         self.detector = cv2.CascadeClassifier(cascade_file)
 
-    def detect_faces(self, image):
+    def detect_faces(self, image: np.ndarray) -> list:
+        """
+        Detect faces in an image.
+
+        Args:
+            image (np.ndarray): Image in which to detect faces.
+
+        Returns:
+            list: List of detected face regions.
+        """
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = self.detector.detectMultiScale(
             gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
@@ -22,25 +37,53 @@ class FaceDetector:
 
 
 class FaceRecognizer:
-    def __init__(self, n_components=None):
+    def __init__(self, n_components: Optional[int] = None) -> None:
+        """
+        Initialize a face recognizer.
+
+        Args:
+            n_components (Optional[int], optional): Number of principal components. Defaults to None.
+        """
         self.n_components = n_components
         self.pca: Optional[PCA] = None
         self.clf = SVC(kernel='rbf', class_weight='balanced')
 
-    def train(self, faces, labels):
+    def train(self, faces: np.ndarray, labels: np.ndarray) -> None:
+        """
+        Train the face recognizer.
+
+        Args:
+            faces (np.ndarray): Training face images.
+            labels (np.ndarray): Labels corresponding to the faces.
+        """
         n_components = min(
             faces.shape[0], faces.shape[1]) if self.n_components is None else self.n_components
         self.pca = PCA(n_components=n_components, whiten=True)
         faces_pca = self.pca.fit_transform(faces)
         self.clf.fit(faces_pca, labels)
 
-    def predict(self, face):
+    def predict(self, face: np.ndarray) -> np.ndarray:
+        """
+        Predict the label for a given face.
+
+        Args:
+            face (np.ndarray): Face for which to predict the label.
+
+        Returns:
+            np.ndarray: Predicted label.
+        """
         face_pca = self.pca.transform(face)
         return self.clf.predict(face_pca)
 
 
-def run_experiment(n_components: int, directory: str):
+def run_experiment(n_components: int, directory: str) -> None:
+    """
+    Run a face recognition experiment.
 
+    Args:
+        n_components (int): Number of principal components.
+        directory (str): Path to the directory containing test images.
+    """
     dataset = ExtendedFaceDataset(n_components, directory)
 
     X, y, target_names = dataset.get_data()
@@ -62,6 +105,5 @@ def run_experiment(n_components: int, directory: str):
 
 
 if __name__ == "__main__":
-
     print("Running experiment with full LFW dataset...")
     run_experiment(10, "tests/test_files/inputs/tom_cruise")
