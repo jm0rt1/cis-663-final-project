@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from sklearn.datasets import fetch_lfw_people
 from sklearn.model_selection import train_test_split
 import numpy as np
+from imblearn.over_sampling import SMOTE
 
 
 class BaseFaceDataset(ABC):
@@ -90,6 +91,26 @@ class ExtendedFaceDataset(FaceDataset):
         # Combine labels
         combined_labels = np.concatenate((false_labels, self.labels))
         return combined_images, combined_labels, np.array(["Not You"] + ['You'])
+
+
+class BalancedFaceDataset(ExtendedFaceDataset):
+    """
+    This dataset attempts to balance the classes using SMOTE oversampling.
+    """
+
+    def balance_data(self):
+        smote = SMOTE(sampling_strategy='auto')
+        X_resampled, y_resampled = smote.fit_resample(self.images, self.labels)
+        return X_resampled, y_resampled
+
+    def get_data(self) -> Tuple[np.array, np.array, List[str]]:
+        # First, get the data as usual
+        X, y, target_names = super().get_data()
+
+        # Then, balance it using SMOTE
+        X_resampled, y_resampled = self.balance_data()
+
+        return X_resampled, y_resampled, target_names
 
 
 class CustomFaceDataset(BaseFaceDataset):
