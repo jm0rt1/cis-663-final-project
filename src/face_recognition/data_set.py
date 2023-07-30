@@ -6,7 +6,8 @@ from abc import ABC, abstractmethod
 from sklearn.datasets import fetch_lfw_people
 from sklearn.model_selection import train_test_split
 import numpy as np
-from imblearn.over_sampling import SMOTE
+
+from src.face_recognition.face_detection import FaceDetector
 
 
 class BaseFaceDataset(ABC):
@@ -20,11 +21,11 @@ class BaseFaceDataset(ABC):
 
 
 class FaceDataset(BaseFaceDataset):
-    def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = False):
+    def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = True):
         super().__init__()
         self.dataset = fetch_lfw_people(min_faces_per_person=70, resize=0.4)
         self.detector = FaceDetector(
-            'path_to_haar_cascade.xml') if use_face_detection else None
+            'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml') if use_face_detection else None
         self.use_face_detection = use_face_detection
         # set labels to zeros of the same length
         self.dataset.target = np.zeros(
@@ -98,19 +99,7 @@ class BalancedFaceDataset(ExtendedFaceDataset):
     This dataset attempts to balance the classes using SMOTE oversampling.
     """
 
-    def balance_data(self):
-        smote = SMOTE(sampling_strategy='auto')
-        X_resampled, y_resampled = smote.fit_resample(self.images, self.labels)
-        return X_resampled, y_resampled
-
-    def get_data(self) -> Tuple[np.array, np.array, List[str]]:
-        # First, get the data as usual
-        X, y, target_names = super().get_data()
-
-        # Then, balance it using SMOTE
-        X_resampled, y_resampled = self.balance_data()
-
-        return X_resampled, y_resampled, target_names
+    pass
 
 
 class CustomFaceDataset(BaseFaceDataset):

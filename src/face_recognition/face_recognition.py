@@ -7,33 +7,8 @@ from sklearn.svm import SVC
 from sklearn.datasets import fetch_lfw_people
 from sklearn.metrics import classification_report
 
-from src.face_recognition.data_set import ExtendedFaceDataset, FaceDataset
-
-
-class FaceDetector:
-    def __init__(self, cascade_file: str) -> None:
-        """
-        Initialize a face detector with a given cascade file.
-
-        Args:
-            cascade_file (str): Path to the cascade file.
-        """
-        self.detector = cv2.CascadeClassifier(cascade_file)
-
-    def detect_faces(self, image: np.ndarray) -> list:
-        """
-        Detect faces in an image.
-
-        Args:
-            image (np.ndarray): Image in which to detect faces.
-
-        Returns:
-            list: List of detected face regions.
-        """
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        faces = self.detector.detectMultiScale(
-            gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-        return [gray[y:y+h, x:x+w] for (x, y, w, h) in faces]
+from src.face_recognition.data_set import BalancedFaceDataset, ExtendedFaceDataset, FaceDataset
+from imblearn.over_sampling import SMOTE
 
 
 class FaceRecognizer:
@@ -84,11 +59,15 @@ def run_experiment(n_components: int, directory: str) -> None:
         n_components (int): Number of principal components.
         directory (str): Path to the directory containing test images.
     """
-    dataset = ExtendedFaceDataset(n_components, directory)
-
+    # dataset = ExtendedFaceDataset(n_components, directory)
+    dataset = BalancedFaceDataset(n_components, directory)
     X, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.25, random_state=42)
+
+    # Use SMOTE only on the training data
+    smote = SMOTE(sampling_strategy='auto')
+    X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
     recognizer = FaceRecognizer()
     recognizer.train(X_train, y_train)
