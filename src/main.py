@@ -1,6 +1,7 @@
 import logging
 import logging.handlers
 from src.shared.settings import GlobalSettings
+from src.face_recognition.face_recognition import run_experiment
 
 
 def initialize_logging():
@@ -18,3 +19,6 @@ def main():
     """run a console menu that has two options, runs in a while loop so multiple options can be selected"""
 
     initialize_logging()
+    run_experiment(100, "tests/test_files/inputs/tom_cruise")
+    run_experiment(5, "tests/test_files/inputs/tom_cruise")
+    run_experiment(759, "tests/test_files/inputs/tom_cruise")
