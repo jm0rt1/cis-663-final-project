@@ -34,8 +34,7 @@ class FaceDataset(BaseFaceDataset):
 
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
         images = []
-        n_samples, h, w = self.dataset.images.shape
-        for image in self.dataset.images.reshape((n_samples, h * w)):
+        for image in self.dataset.images:
             if self.use_face_detection:
                 faces = self.detector.detect_faces(image)
                 # if no faces are detected, continue to the next image
@@ -47,10 +46,14 @@ class FaceDataset(BaseFaceDataset):
             else:
                 images.append(image)
 
+        # If no images were added, return empty arrays
+        if len(images) == 0:
+            return np.array([]), np.array([]), []
+
         n_samples, h, w = len(images), images[0].shape[0], images[0].shape[1]
         images = np.array(images).reshape((n_samples, h * w))
 
-        return images, self.dataset.target, self.dataset.target_names
+        return images, self.dataset.target, np.array(["Not You"])
 
 
 class ExtendedFaceDataset(FaceDataset):
