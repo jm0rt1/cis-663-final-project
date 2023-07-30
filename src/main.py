@@ -1,15 +1,17 @@
 import logging
 import logging.handlers
+import os
+
 from src.shared.settings import GlobalSettings
 from src.face_recognition.face_recognition import run_experiment
 
-import os
 
-
-def initialize_logging():
-
+def initialize_logging() -> None:
+    """
+    Initialize logging configurations using settings from the GlobalSettings module.
+    """
     file_handler = logging.handlers.RotatingFileHandler(
-        GlobalSettings.GLOBAL_LOGS_DIR/GlobalSettings.LoggingParams.GLOBAL_FILE_NAME,
+        GlobalSettings.GLOBAL_LOGS_DIR / GlobalSettings.LoggingParams.GLOBAL_FILE_NAME,
         backupCount=GlobalSettings.LoggingParams.BACKUP_COUNT)
 
     logging.getLogger().addHandler(file_handler)
@@ -17,43 +19,31 @@ def initialize_logging():
     logging.info("Global Logging Started")
 
 
-def main():
-    """run a console menu that has two options, runs in a while loop so multiple options can be selected"""
+def calculate_n_components_to_add_from_lfw(directory_true_count: int, desired_percentage: int) -> int:
+    """
+    Calculate the number of components to add to the dataset to achieve a desired percentage of true images.
 
+    Args:
+        directory_true_count (int): Number of true images in the directory.
+        desired_percentage (int): Desired percentage of true images.
+
+    Returns:
+        int: Rounded number of components to add.
+    """
+    n_components_to_add = directory_true_count / (desired_percentage / 100)
+    return round(n_components_to_add)
+
+
+def main() -> None:
+    """
+    Run a console menu that has multiple options for running face recognition experiments.
+    """
     initialize_logging()
 
-    percentage = 20
-
     directory = "tests/test_files/inputs/tom_cruise"
-    count = 0
     # count number of files in directory containing true images
-    for file in os.listdir(directory):
-        if "true" in file:
-            count += 1
+    count = sum("true" in file for file in os.listdir(directory))
 
-    run_experiment(calculate_n_components_to_add_from_lfw(count, 5), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 10), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 15), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 20), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 25), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 30), directory)
-    run_experiment(calculate_n_components_to_add_from_lfw(
-        count, 70), directory)
-
-
-def calculate_n_components_to_add_from_lfw(directory_true_count: int, desired_percentage: int):
-    """calculate the number of components to add to the dataset to achieve a desired percentage of true images"""
-
-    # get the number of components to add to the dataset
-    n_components_to_add = directory_true_count / \
-        (desired_percentage / 100)
-
-    # round the number of components to add to the dataset
-    n_components_to_add = round(n_components_to_add)
-
-    return n_components_to_add
+    for percentage in [5, 10, 15, 20, 25, 30, 70]:
+        run_experiment(calculate_n_components_to_add_from_lfw(
+            count, percentage), directory)
