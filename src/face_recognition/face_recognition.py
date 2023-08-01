@@ -1,5 +1,4 @@
 from typing import Optional
-import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
@@ -7,7 +6,7 @@ from sklearn.svm import SVC
 from sklearn.datasets import fetch_lfw_people
 from sklearn.metrics import classification_report
 
-from src.face_recognition.data_set import BalancedFaceDataset, ExtendedFaceDataset, FaceDataset
+from src.face_recognition.data_set import ExtendedFaceDataset
 from imblearn.over_sampling import SMOTE
 
 
@@ -60,7 +59,7 @@ def run_experiment(n_components: int, directory: str) -> None:
         directory (str): Path to the directory containing test images.
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
-    dataset = BalancedFaceDataset(n_components, directory)
+    dataset = ExtendedFaceDataset(n_components, directory)
     X, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.25, random_state=42)
