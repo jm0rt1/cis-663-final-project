@@ -6,8 +6,10 @@ from abc import ABC, abstractmethod
 from sklearn.datasets import fetch_lfw_people
 from sklearn.model_selection import train_test_split
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
 from src.face_recognition.face_detection import FaceDetector
+import cv2
 
 
 class BaseFaceDataset(ABC):
@@ -23,7 +25,7 @@ class BaseFaceDataset(ABC):
 class FaceDataset(BaseFaceDataset):
     def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = True):
         super().__init__()
-        self.dataset = fetch_lfw_people(min_faces_per_person=70, resize=0.4)
+        self.dataset = fetch_lfw_people(min_faces_per_person=15, resize=0.4)
         self.detector = FaceDetector(
             'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml') if use_face_detection else None
         self.use_face_detection = use_face_detection
@@ -73,6 +75,14 @@ class ExtendedFaceDataset(FaceDataset):
                 # resize image to match LFW images size
                 img = img.resize((37, 50))
                 img_data = np.array(img).reshape(-1)  # flatten the image
+                # Instantiate the scaler
+                scaler = MinMaxScaler()
+                # Rescale the images
+                # save original dimension
+                original_dimension = img_data.shape[0]
+                img_data = scaler.fit_transform(img_data.reshape(-1, 1))
+                # Reshape the image back to its original dimensions
+                img_data = img_data.reshape(original_dimension)
                 self.images.append(img_data)
                 if "true" in file.lower():
                     self.labels.append(1)  # label '1' for 'you'
@@ -124,3 +134,38 @@ class CustomFaceDataset(BaseFaceDataset):
         h, w = self.images[0].shape
         images = np.array(self.images).reshape((n_samples, h * w))
         return images, np.array(self.labels), self.names
+
+
+def preprocess_image(image_path):
+    # Load the image in grayscale
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+
+    # Normalize pixel values to [0,1] scale
+    normalized_image = image / 255.0
+
+    return normalized_image
+
+
+def scale_images(self, images: np.array) -> np.array:
+    """
+    Scale pixel values of images to range [0, 1] using MinMaxScaler.
+
+    Args:
+        images (np.array): Array of images.
+
+    Returns:
+        np.array: Scaled images.
+    """
+    # Instantiate the scaler
+    scaler = MinMaxScaler()
+
+    # Reshape the images to 2D array so we can fit the scaler
+    images_2d = images.reshape(-1, 1)
+
+    # Fit and transform the data
+    images_scaled_2d = scaler.fit_transform(images_2d)
+
+    # Reshape the data back to its original shape
+    images_scaled = images_scaled_2d.reshape(images.shape)
+
+    return images_scaled
