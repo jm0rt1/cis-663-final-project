@@ -18,7 +18,7 @@ As the sole contributor to this project, the researcher is responsible for all a
 
     Some code has already been written to help with this.  The code is located in the following repository:
 
-    https://github.com/jm0rt1/CSE682-Project.git
+    https://github.com/jm0rt1/cis-663-final-project.git
 
 
 5. **Results and Discussion:** The results obtained from the experiment are presented. These could be in the form of accuracy, precision, recall, or other metrics relevant to facial recognition. These results are then discussed, drawing comparisons with the performance reported in existing literature if applicable.
