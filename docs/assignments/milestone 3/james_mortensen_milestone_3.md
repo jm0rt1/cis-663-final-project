@@ -1,4 +1,4 @@
-**Milestone 3: Duties Assigned and Contribution Statement for Facial Recognition Experiment**
+# Milestone 3: Duties Assigned and Contribution Statement for Facial Recognition Experiment
 
 As the sole contributor to this project, the researcher is responsible for all aspects of the main paper that encompasses the conceptualization, development, and evaluation of a facial recognition experiment. The main duties for writing the paper can be divided as follows:
 
@@ -7,8 +7,19 @@ As the sole contributor to this project, the researcher is responsible for all a
 2. **Literature Review:** A thorough review of existing literature on facial recognition algorithms and techniques is conducted. Strengths and weaknesses of different approaches, standard performance metrics used, and how the project fits into this landscape are highlighted.
 
 3. **Methodology:** The facial recognition algorithm implemented or the set of algorithms being compared are described. The datasets being used, how the data is preprocessed, and any augmentations applied are also discussed.
+    
+    **The following Data Set has already been chosen:**
+
+    **Labeled Faces in the Wild (LFW) Dataset**: This dataset can be used for face verification tasks, where the goal is to determine whether two images depict the same person.
+
+    The intent is to create a binary classification system where the system can recognize either you or not you.  The system will be trained on a set of images of you and a set of images of other people.  The system will then be tested on a set of images of you and a set of images of other people.  The system will be evaluated on its ability to correctly classify the images as you or not you.
 
 4. **Implementation:** The practical steps of implementing the methodology are detailed. This involves setting up the facial detection and recognition pipeline, dealing with challenges related to image alignment, handling variations in pose, light, etc.
+
+    Some code has already been written to help with this.  The code is located in the following repository:
+
+    https://github.com/jm0rt1/CSE682-Project.git
+
 
 5. **Results and Discussion:** The results obtained from the experiment are presented. These could be in the form of accuracy, precision, recall, or other metrics relevant to facial recognition. These results are then discussed, drawing comparisons with the performance reported in existing literature if applicable.
 
