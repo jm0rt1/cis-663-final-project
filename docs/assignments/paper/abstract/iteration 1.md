@@ -1,0 +1,5 @@
+### Abstract
+
+Facial recognition systems have gained considerable traction in various applications, including security, authentication, and human-computer interaction. This paper meticulously outlines the design and implementation of a facial recognition system that seamlessly integrates face detection and recognition. The system employs Haar cascades for precise face detection, followed by Eigenfaces for dimensionality reduction and a Support Vector Machine (SVM) for robust classification. Extensive preprocessing techniques ensure quality inputs, and a comprehensive evaluation strategy guarantees reliable performance. The design's strength lies in its flexibility, scalability, and attention to detail, promising a significant contribution to the evolving field of facial recognition. 
+
+**Keywords**: Facial Recognition, Face Detection, Haar Cascades, Eigenfaces, Principal Component Analysis (PCA), Support Vector Machine (SVM), Image Preprocessing, Dimensionality Reduction, Machine Learning, Classification.
