@@ -1,4 +1,3 @@
-Certainly! Based on the structure provided, I'll elaborate the content:
 
 ### Experiment Design
 
