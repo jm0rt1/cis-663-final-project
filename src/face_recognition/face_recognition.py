@@ -1,3 +1,5 @@
+import datetime
+from pathlib import Path
 from typing import Optional
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -8,6 +10,7 @@ from sklearn.metrics import classification_report
 
 from src.face_recognition.data_set import ExtendedFaceDataset
 from imblearn.over_sampling import SMOTE
+from src.shared.settings import GlobalSettings as gs
 
 
 class FaceRecognizer:
@@ -50,7 +53,7 @@ class FaceRecognizer:
         return self.clf.predict(face_pca)
 
 
-def run_experiment(n_components: int, directory: str) -> None:
+def run_experiment(n_components: int, directory: str, percentage: int) -> None:
     """
     Run a face recognition experiment.
 
@@ -79,7 +82,33 @@ def run_experiment(n_components: int, directory: str) -> None:
     else:
         target_names = ['Not You', 'You']
 
-    print(classification_report(y_test, y_pred, target_names=target_names))
+    ReportFileManager().add_classification_report_report_to_file(
+        target_names, y_test, y_pred, percentage)
+
+
+class ReportFileManager():
+    TIME_STAMP = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    REPORT_OUTPUT_DIR = Path(
+        gs.OUTPUT_DIR/"reports")
+    REPORT_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    REPORT_FILE_PATH = REPORT_OUTPUT_DIR/f"report_{TIME_STAMP}.txt"
+
+    report_counter = 1
+
+    def __init__(self):
+        """Initialize a file manager."""
+        pass
+
+    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float):
+        """Output classification report to file."""
+
+        classification_str = classification_report(
+            y_test, y_pred, target_names=target_names)
+        with open(self.REPORT_FILE_PATH, 'a') as f:
+            f.write(
+                f"Classification Report #{self.report_counter} -- Percentage of Target in Dataset: {percentage}\n")
+            f.write(classification_str)
+            f.write("\n")
 
 
 if __name__ == "__main__":
