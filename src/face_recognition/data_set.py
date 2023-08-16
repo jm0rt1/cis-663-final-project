@@ -3,7 +3,7 @@ import os
 from typing import List, Tuple, Optional
 from PIL import Image
 from abc import ABC, abstractmethod
-from sklearn.datasets import fetch_lfw_people
+from sklearn.datasets import _
 from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
