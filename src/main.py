@@ -41,7 +41,7 @@ def main() -> None:
     """
     initialize_logging()
 
-    directory = "tests/test_files/inputs/tom_cruise"
+    directory = "tests/test_files/inputs/me"
     # count number of files in directory containing true images
     count = sum("true" in file for file in os.listdir(directory))
 

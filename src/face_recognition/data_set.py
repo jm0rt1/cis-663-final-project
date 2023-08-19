@@ -52,7 +52,7 @@ class FaceDataset(BaseFaceDataset):
             self.dataset.target.shape[0], dtype=np.int32)
         if n_images is not None:
             self.dataset.images, _, self.dataset.target, _ = train_test_split(
-                self.dataset.images, self.dataset.target, train_size=n_images, stratify=self.dataset.target, random_state=42)
+                self.dataset.images, self.dataset.target, train_size=min(n_images, len(self.dataset.images)-1), stratify=self.dataset.target, random_state=42)
 
         # Create a new list to store preprocessed images
         processed_images = []
