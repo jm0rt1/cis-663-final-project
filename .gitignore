@@ -7,3 +7,4 @@ output/logs/
 .obsidian
 
 output/
+tests/test_files/inputs/me/
