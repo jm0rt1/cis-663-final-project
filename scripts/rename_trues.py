@@ -8,7 +8,8 @@ from pathlib import Path
 def rename_files_in_directory(directory):
     i = 1
     for file in os.listdir(directory):
-        if file.endswith('.jpg'):  # change this if your images are in a different format
+        # change this if your images are in a different format
+        if file.lower().endswith('.jpg') or file.lower().endswith('.jpeg'):
             os.rename(os.path.join(directory, file),
                       os.path.join(directory, f"true{i}.jpg"))
             i += 1
