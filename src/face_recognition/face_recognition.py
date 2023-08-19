@@ -68,13 +68,14 @@ def run_experiment(n_components: int, directory: str, percentage: int) -> None:
         X, y, test_size=0.25, random_state=42)
 
     # Use SMOTE only on the training data
-    smote = SMOTE(sampling_strategy='auto')
+    smote = SMOTE(sampling_strategy='auto', k_neighbors=min(2, len(X_train)-1))
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
-    recognizer = FaceRecognizer()
-    recognizer.train(X_train, y_train)
+    y_pred = train_and_test(
+        X_train, y_train, X_test)
 
-    y_pred = recognizer.predict(X_test)
+    y_pred_resampled = train_and_test(
+        X_train_resampled, y_train_resampled, X_test)
 
     unique_labels = np.unique(np.concatenate((y_test, y_pred)))
     if len(unique_labels) == 1:
@@ -83,7 +84,18 @@ def run_experiment(n_components: int, directory: str, percentage: int) -> None:
         target_names = ['Not You', 'You']
 
     ReportFileManager().add_classification_report_report_to_file(
-        target_names, y_test, y_pred, percentage)
+        target_names, y_test, y_pred, percentage, False)
+
+    ReportFileManager().add_classification_report_report_to_file(
+        target_names, y_test, y_pred_resampled, percentage, True)
+
+
+def train_and_test(X_train_resampled, y_train_resampled, X_test_resampled):
+    recognizer = FaceRecognizer()
+    recognizer.train(X_train_resampled, y_train_resampled)
+
+    y_pred = recognizer.predict(X_test_resampled)
+    return y_pred
 
 
 class ReportFileManager():
@@ -99,16 +111,16 @@ class ReportFileManager():
         """Initialize a file manager."""
         pass
 
-    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float):
+    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool):
         """Output classification report to file."""
 
         classification_str = classification_report(
             y_test, y_pred, target_names=target_names)
         with open(self.REPORT_FILE_PATH, 'a') as f:
             f.write(
-                f"Classification Report #{self.report_counter} -- Percentage of Target in Dataset: {percentage}\n")
+                f"Classification Report #{self.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\n\n")
             f.write(classification_str)
-            f.write("\n")
+            f.write("\n\n")
 
 
 if __name__ == "__main__":

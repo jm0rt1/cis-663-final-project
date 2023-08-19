@@ -12,7 +12,25 @@ from src.face_recognition.face_detection import FaceDetector
 import cv2
 
 
+def preprocess_image(img_path_or_array, target_size=(47, 62)):  # Note the switch here
+    if isinstance(img_path_or_array, str):
+        # If a path is provided, load image
+        img = Image.open(img_path_or_array)
+    else:
+        # If an array is provided, convert back to Image for easy processing
+        img = Image.fromarray(img_path_or_array)
+
+    img = img.convert('L')  # Convert to grayscale
+    img = img.resize(target_size)  # Resize
+    img_array = np.array(img)
+
+    # Normalize pixel values to [0, 1] scale
+    normalized_image = img_array / 255.0
+    return normalized_image
+
+
 class BaseFaceDataset(ABC):
+
     def __init__(self):
         self.images: List[np.array] = []
         self.labels: List[int] = []
@@ -23,34 +41,43 @@ class BaseFaceDataset(ABC):
 
 
 class FaceDataset(BaseFaceDataset):
+
     def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = True):
         super().__init__()
         self.dataset = fetch_lfw_people(min_faces_per_person=15, resize=0.4)
         self.detector = FaceDetector(
             'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml') if use_face_detection else None
         self.use_face_detection = use_face_detection
-        # set labels to zeros of the same length
         self.dataset.target = np.zeros(
             self.dataset.target.shape[0], dtype=np.int32)
         if n_images is not None:
             self.dataset.images, _, self.dataset.target, _ = train_test_split(
                 self.dataset.images, self.dataset.target, train_size=n_images, stratify=self.dataset.target, random_state=42)
 
+        # Create a new list to store preprocessed images
+        processed_images = []
+
+        # Preprocess the images
+        for i in range(self.dataset.images.shape[0]):
+            processed_img = preprocess_image(self.dataset.images[i])
+            processed_images.append(processed_img)
+
+        # Update the dataset's images attribute
+        self.dataset.images = np.array(processed_images)
+
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
         images = []
         for image in self.dataset.images:
             if self.use_face_detection:
                 faces = self.detector.detect_faces(image)
-                # if no faces are detected, continue to the next image
                 if len(faces) == 0:
                     continue
-                # assuming that detect_faces returns a list of detected faces,
-                # you may want to just use the first detected face
-                images.append(faces[0])
+                processed_face = preprocess_image(faces[0])
+                images.append(processed_face)
             else:
-                images.append(image)
+                processed_image = preprocess_image(image)
+                images.append(processed_image)
 
-        # If no images were added, return empty arrays
         if len(images) == 0:
             return np.array([]), np.array([]), []
 
@@ -61,6 +88,7 @@ class FaceDataset(BaseFaceDataset):
 
 
 class ExtendedFaceDataset(FaceDataset):
+
     def __init__(self, n_images: Optional[int] = None, true_directory: str = None):
         super().__init__(n_images)
         self.true_directory = true_directory
@@ -68,48 +96,44 @@ class ExtendedFaceDataset(FaceDataset):
             self.inject_true_images()
 
     def inject_true_images(self):
+        target_shape = (62, 47)  # or whatever shape you are aiming for
         for file in os.listdir(self.true_directory):
-            if file.endswith('.jpg'):  # change this if your images are in a different format
-                img = Image.open(os.path.join(self.true_directory, file))
-                img = img.convert('L')  # convert image to grayscale
-                # resize image to match LFW images size
-                img = img.resize((37, 50))
-                img_data = np.array(img).reshape(-1)  # flatten the image
-                # Instantiate the scaler
-                scaler = MinMaxScaler()
-                # Rescale the images
-                # save original dimension
-                original_dimension = img_data.shape[0]
-                img_data = scaler.fit_transform(img_data.reshape(-1, 1))
-                # Reshape the image back to its original dimensions
-                img_data = img_data.reshape(original_dimension)
+            if file.endswith('.jpg'):
+                img_data = preprocess_image(
+                    os.path.join(self.true_directory, file))
+
+                # Ensure that the image has the correct shape
+                if img_data.shape != target_shape:
+                    print(
+                        f"Skipped image {file} due to inconsistent shape: {img_data.shape}")
+                    continue
+
+                img_data = img_data.reshape(-1)  # Flatten the image
                 self.images.append(img_data)
                 if "true" in file.lower():
-                    self.labels.append(1)  # label '1' for 'you'
+                    self.labels.append(1)
                 elif "false" in file.lower():
-                    self.labels.append(0)  # label '0' for 'other'
+                    self.labels.append(0)
         self.images = np.array(self.images)
 
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
-        # Overriding this function to label other faces as 'false'
         n_samples, h, w = self.dataset.images.shape
         images = self.dataset.images.reshape((n_samples, h * w))
-        # Combine LFW images and your 'true' images
         combined_images = np.vstack((images, self.images))
-        # Label all LFW images as 'false'
-        # use np.int32 or np.int64
         false_labels = np.zeros(n_samples, dtype=np.int32)
-        # Combine labels
         combined_labels = np.concatenate((false_labels, self.labels))
-        return combined_images, combined_labels, np.array(["Not You"] + ['You'])
+        return combined_images, combined_labels, ["Not You", "You"]
 
 
 class BalancedFaceDataset(ExtendedFaceDataset):
-    """
-    This dataset attempts to balance the classes using SMOTE oversampling.
-    """
 
-    pass
+    def get_data(self) -> Tuple[np.array, np.array, List[str]]:
+        images, labels, names = super().get_data()
+
+        smote = SMOTE()
+        balanced_images, balanced_labels = smote.fit_resample(images, labels)
+
+        return balanced_images, balanced_labels, names
 
 
 class CustomFaceDataset(BaseFaceDataset):
@@ -136,14 +160,14 @@ class CustomFaceDataset(BaseFaceDataset):
         return images, np.array(self.labels), self.names
 
 
-def preprocess_image(image_path):
-    # Load the image in grayscale
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+# def preprocess_image(image_path):
+#     # Load the image in grayscale
+#     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-    # Normalize pixel values to [0,1] scale
-    normalized_image = image / 255.0
+#     # Normalize pixel values to [0,1] scale
+#     normalized_image = image / 255.0
 
-    return normalized_image
+#     return normalized_image
 
 
 def scale_images(self, images: np.array) -> np.array:
@@ -169,3 +193,12 @@ def scale_images(self, images: np.array) -> np.array:
     images_scaled = images_scaled_2d.reshape(images.shape)
 
     return images_scaled
+
+
+if __name__ == "__main__":
+    # Quick test to ensure everything is working as expected.
+    dataset = BalancedFaceDataset(true_directory="path_to_your_images")
+    images, labels, names = dataset.get_data()
+    print(f"Images Shape: {images.shape}")
+    print(f"Labels Shape: {labels.shape}")
+    print(f"Names: {names}")

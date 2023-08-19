@@ -1,0 +1,208 @@
+Classification Report #1 -- Percentage of Target in Dataset: 5
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.96      1.00      0.98        72
+         You       0.00      0.00      0.00         3
+
+    accuracy                           0.96        75
+   macro avg       0.48      0.50      0.49        75
+weighted avg       0.92      0.96      0.94        75
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 5
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      0.99      0.99        72
+         You       0.75      1.00      0.86         3
+
+    accuracy                           0.99        75
+   macro avg       0.88      0.99      0.93        75
+weighted avg       0.99      0.99      0.99        75
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 10
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.92      1.00      0.96        35
+         You       0.00      0.00      0.00         3
+
+    accuracy                           0.92        38
+   macro avg       0.46      0.50      0.48        38
+weighted avg       0.85      0.92      0.88        38
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 10
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      0.97      0.99        35
+         You       0.75      1.00      0.86         3
+
+    accuracy                           0.97        38
+   macro avg       0.88      0.99      0.92        38
+weighted avg       0.98      0.97      0.98        38
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 15
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.92      1.00      0.96        23
+         You       0.00      0.00      0.00         2
+
+    accuracy                           0.92        25
+   macro avg       0.46      0.50      0.48        25
+weighted avg       0.85      0.92      0.88        25
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 15
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      1.00      1.00        23
+         You       1.00      1.00      1.00         2
+
+    accuracy                           1.00        25
+   macro avg       1.00      1.00      1.00        25
+weighted avg       1.00      1.00      1.00        25
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 20
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.79      1.00      0.88        15
+         You       0.00      0.00      0.00         4
+
+    accuracy                           0.79        19
+   macro avg       0.39      0.50      0.44        19
+weighted avg       0.62      0.79      0.70        19
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 20
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      1.00      1.00        15
+         You       1.00      1.00      1.00         4
+
+    accuracy                           1.00        19
+   macro avg       1.00      1.00      1.00        19
+weighted avg       1.00      1.00      1.00        19
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 25
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.53      1.00      0.70         8
+         You       0.00      0.00      0.00         7
+
+    accuracy                           0.53        15
+   macro avg       0.27      0.50      0.35        15
+weighted avg       0.28      0.53      0.37        15
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 25
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      1.00      1.00         8
+         You       1.00      1.00      1.00         7
+
+    accuracy                           1.00        15
+   macro avg       1.00      1.00      1.00        15
+weighted avg       1.00      1.00      1.00        15
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 30
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.77      1.00      0.87        10
+         You       0.00      0.00      0.00         3
+
+    accuracy                           0.77        13
+   macro avg       0.38      0.50      0.43        13
+weighted avg       0.59      0.77      0.67        13
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 30
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      0.90      0.95        10
+         You       0.75      1.00      0.86         3
+
+    accuracy                           0.92        13
+   macro avg       0.88      0.95      0.90        13
+weighted avg       0.94      0.92      0.93        13
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 50
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.25      1.00      0.40         2
+         You       0.00      0.00      0.00         6
+
+    accuracy                           0.25         8
+   macro avg       0.12      0.50      0.20         8
+weighted avg       0.06      0.25      0.10         8
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 50
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       1.00      1.00      1.00         2
+         You       1.00      1.00      1.00         6
+
+    accuracy                           1.00         8
+   macro avg       1.00      1.00      1.00         8
+weighted avg       1.00      1.00      1.00         8
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 70
+SMOTE Resampled = False
+
+              precision    recall  f1-score   support
+
+     Not You       0.00      0.00      0.00         3
+         You       0.50      1.00      0.67         3
+
+    accuracy                           0.50         6
+   macro avg       0.25      0.50      0.33         6
+weighted avg       0.25      0.50      0.33         6
+
+
+Classification Report #1 -- Percentage of Target in Dataset: 70
+SMOTE Resampled = True
+
+              precision    recall  f1-score   support
+
+     Not You       0.00      0.00      0.00         3
+         You       0.50      1.00      0.67         3
+
+    accuracy                           0.50         6
+   macro avg       0.25      0.50      0.33         6
+weighted avg       0.25      0.50      0.33         6
+
+

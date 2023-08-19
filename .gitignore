@@ -5,3 +5,5 @@ output/logs/
 
 # Obsidian.md ignores
 .obsidian
+
+output/
