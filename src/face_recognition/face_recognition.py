@@ -106,10 +106,14 @@ class ReportFileManager():
     REPORT_FILE_PATH = REPORT_OUTPUT_DIR/f"report_{TIME_STAMP}.txt"
 
     report_counter = 1
+    header_written = False
 
     def __init__(self):
         """Initialize a file manager."""
-        pass
+        if not self.header_written:
+            with open(ReportFileManager.REPORT_FILE_PATH, 'w') as f:
+                f.write(f"Commit ID: {self.get_commit_id()}\n\n")
+            ReportFileManager.header_written = True
 
     def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool):
         """Output classification report to file."""
@@ -118,9 +122,15 @@ class ReportFileManager():
             y_test, y_pred, target_names=target_names)
         with open(self.REPORT_FILE_PATH, 'a') as f:
             f.write(
-                f"Classification Report #{self.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\n\n")
+                f"Classification Report #{ReportFileManager.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\n\n")
             f.write(classification_str)
             f.write("\n\n")
+
+    @staticmethod
+    def get_commit_id():
+        """Get the commit ID of the current git repository."""
+        import subprocess
+        return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
 
 if __name__ == "__main__":
