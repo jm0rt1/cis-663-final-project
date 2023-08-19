@@ -63,9 +63,9 @@ def run_experiment(n_components: int, directory: str, percentage: int) -> None:
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
     dataset = ExtendedFaceDataset(n_components, directory)
-    X, y, target_names = dataset.get_data()
+    x, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.25, random_state=42)
+        x, y, test_size=0.25, stratify=y, random_state=42)
 
     # Use SMOTE only on the training data
     smote = SMOTE(sampling_strategy='auto', k_neighbors=min(2, len(X_train)-1))
