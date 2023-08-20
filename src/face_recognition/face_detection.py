@@ -23,9 +23,11 @@ class FaceDetector:
             list: List of detected face regions.
         """
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        matplotlib_face(gray)
         faces = self.detector.detectMultiScale(
             gray, scaleFactor=1.1, minNeighbors=5, minSize=(400, 400))
-
+        if isinstance(faces, np.ndarray) and len(faces) > 0:
+            matplotlib_faces(faces)
         filtered_faces = []
         for (x, y, w, h) in faces:
             aspect_ratio = w / h
@@ -33,3 +35,20 @@ class FaceDetector:
                 filtered_faces.append(gray[y:y+h, x:x+w])
 
         return filtered_faces
+
+
+def matplotlib_face(face: np.ndarray):
+    import matplotlib.pyplot as plt
+
+    plt.imshow(face, cmap='gray')
+    plt.show()
+
+
+def matplotlib_faces(faces: np.ndarray[np.ndarray]):
+
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(len(faces))
+    for i, face in enumerate(faces):
+        axs[i].imshow(face, cmap='gray')
+    plt.show()
