@@ -98,7 +98,7 @@ class ExtendedFaceDataset(FaceDataset):
     def inject_true_images(self):
         target_shape = (62, 47)  # or whatever shape you are aiming for
         for file in os.listdir(self.true_directory):
-            if file.endswith('.jpg'):
+            if file.lower().endswith('.jpg') or file.lower().endswith('.jpeg'):
                 img_data = preprocess_image(
                     os.path.join(self.true_directory, file))
 
