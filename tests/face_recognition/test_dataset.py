@@ -24,7 +24,8 @@ class TestExtendedFaceDataset(unittest.TestCase):
     def setUp(self):
         # Assuming you have a directory with images labeled as 'true'
         self.true_directory = 'tests/test_files/inputs/tom_cruise'
-        self.dataset = ExtendedFaceDataset(true_directory=self.true_directory)
+        self.dataset = ExtendedFaceDataset(
+            10, true_directory=self.true_directory)
 
     def test_get_data(self):
         images, labels, names = self.dataset.get_data()
