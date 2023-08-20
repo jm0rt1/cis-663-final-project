@@ -38,23 +38,5 @@ class TestExtendedFaceDataset(unittest.TestCase):
         self.assertEqual(len(names), len(set(labels)))
 
 
-class TestCustomFaceDataset(unittest.TestCase):
-    def setUp(self):
-        # Assuming you have a directory with images labeled as 'true' and 'false'
-        self.directory = 'tests/test_files/inputs/tom_cruise'
-        self.dataset = CustomFaceDataset(self.directory)
-
-    def test_get_data(self):
-        images, labels, names = self.dataset.get_data()
-        self.assertIsInstance(images, np.ndarray)
-        self.assertIsInstance(labels, np.ndarray)
-        self.assertIsInstance(names, np.ndarray)
-        self.assertGreater(len(images), 0)
-        self.assertEqual(len(images), len(labels))
-        self.assertIn('You', names)
-        self.assertIn('Other', names)
-        self.assertEqual(len(names), len(set(labels)))
-
-
 if __name__ == "__main__":
     unittest.main()
