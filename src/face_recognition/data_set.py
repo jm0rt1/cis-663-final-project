@@ -45,6 +45,14 @@ class FaceDataset(BaseFaceDataset):
     def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = True):
         super().__init__()
         self.dataset = fetch_lfw_people(min_faces_per_person=15, resize=0.4)
+
+        # Scale the pixel values to [0, 255] and convert to uint8
+        scaled_img_data = np.array([(img * 255).astype(np.uint8)
+                                    for img in self.dataset.images])
+
+        # Convert the scaled data to a PIL Image
+        self.dataset.images = scaled_img_data
+
         self.detector = FaceDetector(
             'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml') if use_face_detection else None
         self.use_face_detection = use_face_detection
