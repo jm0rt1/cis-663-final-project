@@ -27,7 +27,9 @@ class FaceDetector:
         faces = self.detector.detectMultiScale(
             gray, scaleFactor=1.1, minNeighbors=5, minSize=(400, 400))
         if isinstance(faces, np.ndarray) and len(faces) > 0:
-            matplotlib_faces(faces)
+            # Assuming 'gray' is the grayscale image you're working on
+            matplotlib_faces(gray, faces)
+
         filtered_faces = []
         for (x, y, w, h) in faces:
             aspect_ratio = w / h
@@ -44,11 +46,20 @@ def matplotlib_face(face: np.ndarray):
     plt.show()
 
 
-def matplotlib_faces(faces: np.ndarray[np.ndarray]):
-
+def matplotlib_faces(original_img: np.ndarray, face_coords: np.ndarray):
     import matplotlib.pyplot as plt
 
-    fig, axs = plt.subplots(len(faces))
-    for i, face in enumerate(faces):
-        axs[i].imshow(face, cmap='gray')
+    # Extract faces from original image using bounding box coordinates
+    extracted_faces = [original_img[y:y+h, x:x+w]
+                       for (x, y, w, h) in face_coords]
+
+    n_faces = len(extracted_faces)
+
+    if n_faces == 1:
+        fig, axs = plt.subplots()
+        axs.imshow(extracted_faces[0], cmap='gray')
+    else:
+        fig, axs = plt.subplots(n_faces)
+        for i, face in enumerate(extracted_faces):
+            axs[i].imshow(face, cmap='gray')
     plt.show()
