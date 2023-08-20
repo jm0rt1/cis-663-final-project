@@ -134,6 +134,7 @@ class ReportFileManager():
                 f"Classification Report #{ReportFileManager.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\nFace Detection Used = {face_detection}\n\n")
             f.write(classification_str)
             f.write("\n\n")
+        self.report_counter += 1
 
     @staticmethod
     def get_commit_id():
