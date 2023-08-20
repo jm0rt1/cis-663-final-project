@@ -28,6 +28,10 @@ def confirm(directory):
         return confirm(directory)
 
 
+def is_parent(parent_dir: Path, child_dir: Path) -> bool:
+    return child_dir.resolve().is_relative_to(parent_dir.resolve())
+
+
 def cli():
     import argparse
     parser = argparse.ArgumentParser()
@@ -36,6 +40,9 @@ def cli():
     args = parser.parse_args()
 
     directory = Path(args.directory)
+    if not is_parent(Path.cwd(), directory):
+        raise ValueError(
+            f"Directory {directory} is not a subdirectory of {Path.cwd()}")
     if not directory.exists():
         raise FileNotFoundError(f"Directory {directory} does not exist.")
     if confirm(directory):
