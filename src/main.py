@@ -19,22 +19,6 @@ def initialize_logging() -> None:
     logging.info("Global Logging Started")
 
 
-def calculate_n_components_to_add_from_lfw(directory_true_count: int, desired_percentage: int) -> int:
-    """
-    Calculate the number of components to add to the dataset to achieve a desired percentage of true images.
-
-    Args:
-        directory_true_count (int): Number of true images in the directory.
-        desired_percentage (int): Desired percentage of true images.
-
-    Returns:
-        int: Rounded number of components to add.
-    """
-    n_components_to_add = directory_true_count / (desired_percentage / 100)
-    n_components_to_add -= directory_true_count
-    return round(n_components_to_add)
-
-
 def main() -> None:
     """
     Run a console menu that has multiple options for running face recognition experiments.
@@ -43,11 +27,9 @@ def main() -> None:
 
     directory = "tests/test_files/inputs/me"
     # count number of files in directory containing true images
-    count = sum("true" in file for file in os.listdir(directory))
 
     for percentage in [5, 10, 15, 20, 25, 30, 50, 70]:
         # for percentage in [50]:
 
         print(f"Running experiment with {percentage}% true images...")
-        run_experiment(calculate_n_components_to_add_from_lfw(
-            count, percentage), directory, percentage)
+        run_experiment(percentage, directory)

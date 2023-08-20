@@ -54,7 +54,7 @@ class FaceRecognizer:
         return self.clf.predict(face_pca)
 
 
-def run_experiment(n_components: int, directory: str, percentage: int) -> None:
+def run_experiment(percentage: int,  directory: str) -> None:
     """
     Run a face recognition experiment.
 
@@ -63,7 +63,7 @@ def run_experiment(n_components: int, directory: str, percentage: int) -> None:
         directory (str): Path to the directory containing test images.
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
-    dataset = ExtendedFaceDataset(n_components, directory, FaceDetector(
+    dataset = ExtendedFaceDataset(percentage, directory, FaceDetector(
         'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml'))
     # dataset = ExtendedFaceDataset(n_components, directory)
 

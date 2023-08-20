@@ -107,7 +107,11 @@ class FaceDataset(BaseFaceDataset):
 
 class ExtendedFaceDataset(FaceDataset):
 
-    def __init__(self, n_images: Optional[int] = None, true_directory: Optional[str] = None, face_detector: Optional[FaceDetector] = None):
+    def __init__(self, desired_percentage: float, true_directory: Optional[str] = None, face_detector: Optional[FaceDetector] = None):
+        count = sum("true" in file for file in os.listdir(true_directory))
+        n_images = calculate_n_components_to_add_from_lfw(
+            count, desired_percentage)
+        self.desired_percentage = desired_percentage
         super().__init__(n_images, face_detector)
         self.true_directory = true_directory
         if self.true_directory:
@@ -152,9 +156,28 @@ class ExtendedFaceDataset(FaceDataset):
 
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
         n_samples, h, w = self.dataset.images.shape
-        images = self.dataset.images.reshape((n_samples, h * w))
+        n_samples = min(calculate_n_components_to_add_from_lfw(
+            self.images.shape[0], self.desired_percentage), n_samples)
+
+        images = self.dataset.images[0:n_samples].reshape((n_samples, h * w))
         combined_images = np.vstack((images, self.images))
         false_labels = np.zeros(n_samples, dtype=np.int32)
         combined_labels = np.concatenate((false_labels, self.labels))
 
         return combined_images, combined_labels, ["Not You", "You"]
+
+
+def calculate_n_components_to_add_from_lfw(directory_true_count: int, desired_percentage: int) -> int:
+    """
+    Calculate the number of components to add to the dataset to achieve a desired percentage of true images.
+
+    Args:
+        directory_true_count (int): Number of true images in the directory.
+        desired_percentage (int): Desired percentage of true images.
+
+    Returns:
+        int: Rounded number of components to add.
+    """
+    n_components_to_add = directory_true_count / (desired_percentage / 100)
+    n_components_to_add -= directory_true_count
+    return round(n_components_to_add)
