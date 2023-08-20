@@ -19,7 +19,6 @@ def preprocess_image(img_path_or_array, target_size=(47, 62)):  # Note the switc
     else:
         # If an array is provided, convert back to Image for easy processing
         img = Image.fromarray(img_path_or_array)
-
     img = img.convert('L')  # Convert to grayscale
     img = img.resize(target_size)  # Resize
     img_array = np.array(img)
@@ -27,6 +26,19 @@ def preprocess_image(img_path_or_array, target_size=(47, 62)):  # Note the switc
     # Normalize pixel values to [0, 1] scale
     normalized_image = img_array / 255.0
     return normalized_image
+
+
+def show_image(img_path_or_array):
+    if isinstance(img_path_or_array, str):
+        # If a path is provided, load image
+        img = Image.open(img_path_or_array)
+    else:
+        # scale up to 0,255 if normalized to 0,1
+        if np.max(img_path_or_array) <= 1:
+            img_path_or_array = img_path_or_array * 255
+        # If an array is provided, convert back to Image for easy processing
+        img = Image.fromarray(img_path_or_array)
+    img.show()
 
 
 class BaseFaceDataset(ABC):
@@ -130,4 +142,5 @@ class ExtendedFaceDataset(FaceDataset):
         combined_images = np.vstack((images, self.images))
         false_labels = np.zeros(n_samples, dtype=np.int32)
         combined_labels = np.concatenate((false_labels, self.labels))
+
         return combined_images, combined_labels, ["Not You", "You"]
