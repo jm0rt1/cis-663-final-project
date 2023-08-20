@@ -23,7 +23,7 @@ class FaceRecognizer:
         """
         self.n_components = n_components
         self.pca: Optional[PCA] = None
-        self.clf = SVC(kernel='rbf', class_weight='balanced')
+        self.clf = SVC(kernel='linear', class_weight='balanced')
 
     def train(self, faces: np.ndarray, labels: np.ndarray) -> None:
         """
