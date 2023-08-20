@@ -54,7 +54,7 @@ class BaseFaceDataset(ABC):
 
 class FaceDataset(BaseFaceDataset):
 
-    def __init__(self, n_images: Optional[int] = None, use_face_detection: bool = True):
+    def __init__(self, n_images: Optional[int] = None, face_detector: Optional[FaceDetector] = None):
         super().__init__()
         self.dataset = fetch_lfw_people(min_faces_per_person=15, resize=0.4)
 
@@ -65,9 +65,7 @@ class FaceDataset(BaseFaceDataset):
         # Convert the scaled data to a PIL Image
         self.dataset.images = scaled_img_data
 
-        self.detector = FaceDetector(
-            'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml') if use_face_detection else None
-        self.use_face_detection = use_face_detection
+        self.detector = face_detector
         self.dataset.target = np.zeros(
             self.dataset.target.shape[0], dtype=np.int32)
         if n_images is not None:
@@ -88,7 +86,7 @@ class FaceDataset(BaseFaceDataset):
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
         images = []
         for image in self.dataset.images:
-            if self.use_face_detection:
+            if self.detector:
                 faces = self.detector.detect_faces(image)
                 if len(faces) == 0:
                     continue
@@ -109,18 +107,34 @@ class FaceDataset(BaseFaceDataset):
 
 class ExtendedFaceDataset(FaceDataset):
 
-    def __init__(self, n_images: Optional[int] = None, true_directory: str = None):
-        super().__init__(n_images)
+    def __init__(self, n_images: Optional[int] = None, true_directory: Optional[str] = None, face_detector: Optional[FaceDetector] = None):
+        super().__init__(n_images, face_detector)
         self.true_directory = true_directory
         if self.true_directory:
             self.inject_true_images()
 
     def inject_true_images(self):
         target_shape = (62, 47)  # or whatever shape you are aiming for
-        for file in os.listdir(self.true_directory):
+        dir_list = os.listdir(self.true_directory)
+        for file in dir_list:
             if file.lower().endswith('.jpg') or file.lower().endswith('.jpeg'):
-                img_data = preprocess_image(
-                    os.path.join(self.true_directory, file))
+
+                if self.detector:
+                    img = np.array(Image.open(
+                        os.path.join(self.true_directory, file)))
+
+                    faces = self.detector.detect_faces(img)
+                    # for face in faces:
+
+                    #     face = Image.fromarray(face)
+                    #     face.show()
+
+                    if len(faces) == 0:
+                        continue
+                    img_data = preprocess_image(faces[0])
+                else:
+                    img_data = preprocess_image(
+                        os.path.join(self.true_directory, file))
 
                 # Ensure that the image has the correct shape
                 if img_data.shape != target_shape:

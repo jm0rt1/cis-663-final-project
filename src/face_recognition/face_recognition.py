@@ -7,6 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.svm import SVC
 from sklearn.datasets import fetch_lfw_people
 from sklearn.metrics import classification_report
+from src.face_recognition.face_detection import FaceDetector
 
 from src.face_recognition.data_set import ExtendedFaceDataset
 from imblearn.over_sampling import SMOTE
@@ -62,7 +63,10 @@ def run_experiment(n_components: int, directory: str, percentage: int) -> None:
         directory (str): Path to the directory containing test images.
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
-    dataset = ExtendedFaceDataset(n_components, directory)
+    dataset = ExtendedFaceDataset(n_components, directory, FaceDetector(
+        'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml'))
+    # dataset = ExtendedFaceDataset(n_components, directory)
+
     x, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
         x, y, test_size=0.25, stratify=y, random_state=42)
