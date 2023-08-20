@@ -63,10 +63,15 @@ def run_experiment(percentage: int,  directory: str) -> None:
         directory (str): Path to the directory containing test images.
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
-    dataset = ExtendedFaceDataset(percentage, directory, FaceDetector(
+    dataset_with_face_detection = ExtendedFaceDataset(percentage, directory, FaceDetector(
         'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml'))
-    # dataset = ExtendedFaceDataset(n_components, directory)
+    dataset_no_face_detection = ExtendedFaceDataset(percentage, directory)
 
+    run_data_through_model(percentage, dataset_with_face_detection)
+    run_data_through_model(percentage, dataset_no_face_detection)
+
+
+def run_data_through_model(percentage: int, dataset: ExtendedFaceDataset):
     x, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
         x, y, test_size=0.25, stratify=y, random_state=42)
@@ -88,10 +93,10 @@ def run_experiment(percentage: int,  directory: str) -> None:
         target_names = ['Not You', 'You']
 
     ReportFileManager().add_classification_report_report_to_file(
-        target_names, y_test, y_pred, percentage, False)
+        target_names, y_test, y_pred, percentage, False, True if dataset.detector is not None else False)
 
     ReportFileManager().add_classification_report_report_to_file(
-        target_names, y_test, y_pred_resampled, percentage, True)
+        target_names, y_test, y_pred_resampled, percentage, True, True if dataset.detector is not None else False)
 
 
 def train_and_test(X_train_resampled, y_train_resampled, X_test_resampled):
@@ -119,14 +124,14 @@ class ReportFileManager():
                 f.write(f"Commit ID: {self.get_commit_id()}\n\n")
             ReportFileManager.header_written = True
 
-    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool):
+    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool, face_detection: bool):
         """Output classification report to file."""
 
         classification_str = classification_report(
             y_test, y_pred, target_names=target_names)
         with open(self.REPORT_FILE_PATH, 'a') as f:
             f.write(
-                f"Classification Report #{ReportFileManager.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\n\n")
+                f"Classification Report #{ReportFileManager.report_counter} -- Percentage of Target in Dataset: {percentage}\nSMOTE Resampled = {resampled}\nFace Detection Used = {face_detection}\n\n")
             f.write(classification_str)
             f.write("\n\n")
 
