@@ -8,6 +8,7 @@ from src.shared.settings import GlobalSettings as gs
 FACE_DETECTOR_REPORT_DIR = gs.OUTPUT_DIR / \
     "reports"/"face-detection"
 DETECTED_FACES_OUTPUT_DIR = FACE_DETECTOR_REPORT_DIR/"detected-faces"
+SOURCE_IMAGES = FACE_DETECTOR_REPORT_DIR/"source-images"
 
 
 class FaceDetector:
@@ -24,9 +25,13 @@ class FaceDetector:
         self.generate_report = generate_report
         self.report_output_dir = report_output_dir
         if self.generate_report:
-            self.idx = 0
+            self.report_data = []
+            self.faces_idx = 0
+            self.sources_idx = 0
+
             self.report_output_dir.mkdir(parents=True, exist_ok=True)
             shutil.rmtree(self.report_output_dir, ignore_errors=True)
+            shutil.rmtree(SOURCE_IMAGES, ignore_errors=True)
 
     def detect_faces(self, image: np.ndarray, min_aspect_ratio=0.75, max_aspect_ratio=1.3, show=False) -> list:
         """
@@ -53,15 +58,32 @@ class FaceDetector:
                 # Assuming 'gray' is the grayscale image you're working on
                 matplotlib_faces(gray, faces)
 
-            for (x, y, w, h) in faces:
-                aspect_ratio = w / h
-                if min_aspect_ratio <= aspect_ratio <= max_aspect_ratio:
-                    detected_faces.append(gray[y:y+h, x:x+w])
-        if self.generate_report:
-            saved_faces = self.save_detected_faces(detected_faces)
-            generate_html_report(
-                saved_faces, FACE_DETECTOR_REPORT_DIR/"out.html")
+            detected_faces = self.__filter_by_aspect_ratio(
+                min_aspect_ratio, max_aspect_ratio, detected_faces, gray, faces)
+
+        self.save_images(detected_faces, gray)
+
         return detected_faces
+
+    def __filter_by_aspect_ratio(self, min_aspect_ratio, max_aspect_ratio, detected_faces, gray, faces):
+        for (x, y, w, h) in faces:
+            aspect_ratio = w / h
+            if min_aspect_ratio <= aspect_ratio <= max_aspect_ratio:
+                detected_faces.append(gray[y:y+h, x:x+w])
+        return detected_faces
+
+    def save_images(self, detected_faces, source_image):
+        if not self.generate_report:
+            saved_faces = self.save_detected_faces(detected_faces)
+            source_image_path = self.save_source_image(source_image)
+
+            # generate_html_report(
+            #     saved_faces, FACE_DETECTOR_REPORT_DIR/"out.html")
+
+            self.report_data.append({
+                "source_image": source_image_path,
+                "detected_faces": saved_faces
+            })
 
     @staticmethod
     def rotate_image(image: np.ndarray, angle: int) -> np.ndarray:
@@ -80,6 +102,21 @@ class FaceDetector:
         M = cv2.getRotationMatrix2D(center, angle, 1.0)
         return cv2.warpAffine(image, M, (w, h))
 
+    def save_source_image(self, image: np.ndarray) -> str:
+        """
+        Save the source image to the specified directory.
+
+        Returns:
+            str: Path to the saved source image.
+        """
+        SOURCE_IMAGES.mkdir(parents=True, exist_ok=True)
+
+        source_image_path = SOURCE_IMAGES / \
+            f"source_image{self.sources_idx}.png"
+        self.sources_idx += 1
+        cv2.imwrite(source_image_path.as_posix(), image)
+        return source_image_path
+
     def save_detected_faces(self, detected_faces: list) -> list[pathlib.Path]:
         """
         Save detected faces to the specified directory.
@@ -96,12 +133,50 @@ class FaceDetector:
 
         self.saved_face_paths: list[pathlib.Path] = []
         for idx, face in enumerate(detected_faces):
-            face_filename = DETECTED_FACES_OUTPUT_DIR / f"face_{self.idx}.png"
+            face_filename = DETECTED_FACES_OUTPUT_DIR / \
+                f"face_{self.faces_idx}.png"
             cv2.imwrite(face_filename.as_posix(), face)  # type:ignore
             self.saved_face_paths.append(face_filename)
-            self.idx += 1
+            self.faces_idx += 1
 
         return self.saved_face_paths
+
+    def finalize_report(self) -> None:
+        """
+        Generate an HTML report showcasing all the source images and their detected faces.
+        """
+        html_template = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Detected Faces Report</title>
+                <style>
+                    img {
+                        margin: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        padding: 5px;
+                        width: 150px;
+                    }
+                </style>
+            </head>
+            <body>
+                {report_content}
+            </body>
+            </html>
+            """
+
+        report_content = ""
+        for item in self.report_data:
+            report_content += f'<h2>Source Image</h2><img src="{item["source_image"]}" alt="Source Image" width="500" /><br>'
+            report_content += '<h2>Detected Faces</h2>'
+            for idx, path in enumerate(item["detected_faces"]):
+                report_content += f'<img src="{path}" alt="Detected Face {idx}" />'
+            report_content += '<hr>'
+
+        with open(self.report_output_dir/"faces_report.html", 'w') as file:
+            file.write(html_template.replace(
+                "{report_content}", report_content))
 
 
 def matplotlib_face(face: np.ndarray):
