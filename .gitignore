@@ -8,3 +8,4 @@ output/logs/
 
 output/
 tests/test_files/inputs/me/
+scripts/github/access_token.py
