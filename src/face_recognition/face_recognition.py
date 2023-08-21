@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.svm import SVC
 from sklearn.datasets import fetch_lfw_people
 from sklearn.metrics import classification_report
-from src.face_recognition.face_detection import FaceDetector
+from src.face_detection.face_detection import FaceDetector
 
 from src.face_recognition.data_set import ExtendedFaceDataset
 from imblearn.over_sampling import SMOTE
@@ -54,7 +54,7 @@ class FaceRecognizer:
         return self.clf.predict(face_pca)
 
 
-def run_experiment(percentage: int,  directory: str) -> None:
+def run_experiment(percentage: int,  directory: str, save_detection_report: bool) -> None:
     """
     Run a face recognition experiment.
 
@@ -63,8 +63,9 @@ def run_experiment(percentage: int,  directory: str) -> None:
         directory (str): Path to the directory containing test images.
     """
     # dataset = ExtendedFaceDataset(n_components, directory)
+
     dataset_with_face_detection = ExtendedFaceDataset(percentage, directory, FaceDetector(
-        'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml'))
+        'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml', save_detection_report), save_detection_report)
     dataset_no_face_detection = ExtendedFaceDataset(percentage, directory)
 
     run_data_through_model(percentage, dataset_with_face_detection)

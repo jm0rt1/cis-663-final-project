@@ -32,4 +32,7 @@ def main() -> None:
         # for percentage in [50]:
 
         print(f"Running experiment with {percentage}% true images...")
-        run_experiment(percentage, directory)
+        if percentage == 5:
+            run_experiment(percentage, directory, True)
+        else:
+            run_experiment(percentage, directory, False)

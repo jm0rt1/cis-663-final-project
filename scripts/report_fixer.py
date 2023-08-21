@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 
-with open("output/reports/report_20230820-162111.txt", 'r') as f:
+with open("output/reports/report_20230820-211254.txt", 'r') as f:
     report = f.read()
 
 # Extracting information from report

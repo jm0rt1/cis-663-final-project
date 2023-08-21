@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-from src.face_recognition.face_detection import FaceDetector
+from src.face_detection.face_detection import FaceDetector
 import cv2
 
 
@@ -107,8 +107,11 @@ class FaceDataset(BaseFaceDataset):
 
 class ExtendedFaceDataset(FaceDataset):
 
-    def __init__(self, desired_percentage: float, true_directory: Optional[str] = None, face_detector: Optional[FaceDetector] = None):
+    def __init__(self, desired_percentage: float, true_directory: Optional[str] = None, face_detector: Optional[FaceDetector] = None, generate_detection_report: bool = False):
+        self.detection_report_generated = not generate_detection_report
+
         count = sum("true" in file for file in os.listdir(true_directory))
+
         n_images = calculate_n_components_to_add_from_lfw(
             count, desired_percentage)
         self.desired_percentage = desired_percentage
@@ -127,7 +130,9 @@ class ExtendedFaceDataset(FaceDataset):
                     img = np.array(Image.open(
                         os.path.join(self.true_directory, file)))
 
-                    faces = self.detector.detect_faces(img)
+                    faces = self.detector.detect_faces(
+                        img)
+
                     # for face in faces:
 
                     #     face = Image.fromarray(face)
@@ -152,6 +157,9 @@ class ExtendedFaceDataset(FaceDataset):
                     self.labels.append(1)
                 elif "false" in file.lower():
                     self.labels.append(0)
+        if self.detector and not self.detection_report_generated:
+            self.detector.finalize_report()
+            self.detection_report_generated = True
         self.images = np.array(self.images)
 
     def get_data(self) -> Tuple[np.array, np.array, List[str]]:
