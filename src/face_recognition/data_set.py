@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-from src.face_recognition.face_detection import FaceDetector
+from src.face_detection.face_detection import FaceDetector
 import cv2
 
 
@@ -128,6 +128,7 @@ class ExtendedFaceDataset(FaceDataset):
                         os.path.join(self.true_directory, file)))
 
                     faces = self.detector.detect_faces(img)
+
                     # for face in faces:
 
                     #     face = Image.fromarray(face)
