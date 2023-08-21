@@ -111,7 +111,7 @@ def train_and_test(X_train_resampled, y_train_resampled, X_test_resampled):
 class ReportFileManager():
     TIME_STAMP = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     REPORT_OUTPUT_DIR = Path(
-        gs.OUTPUT_DIR/"reports")
+        gs.OUTPUT_DIR/"reports"/"face-recognition"/"classification_reports")
     REPORT_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     REPORT_FILE_PATH = REPORT_OUTPUT_DIR/f"report_{TIME_STAMP}.txt"
 
