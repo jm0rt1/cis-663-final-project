@@ -73,7 +73,7 @@ class FaceDetector:
         return detected_faces
 
     def save_images(self, detected_faces, source_image):
-        if not self.generate_report:
+        if self.generate_report:
             saved_faces = self.save_detected_faces(detected_faces)
             source_image_path = self.save_source_image(source_image)
 
