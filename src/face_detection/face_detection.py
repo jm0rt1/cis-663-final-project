@@ -174,7 +174,7 @@ class FaceDetector:
                 report_content += f'<img src="{path}" alt="Detected Face {idx}" />'
             report_content += '<hr>'
 
-        with open(self.report_output_dir/"faces_report.html", 'w') as file:
+        with open(FACE_DETECTOR_REPORT_DIR/"faces_report.html", 'w') as file:
             file.write(html_template.replace(
                 "{report_content}", report_content))
 
