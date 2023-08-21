@@ -1,9 +1,21 @@
+from pathlib import Path
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
 
-with open("output/reports/report_20230820-211254.txt", 'r') as f:
+
+def extract_timestamp(path: Path):
+    """ example report_20230820-214937.txt return 20230820-214937 as a string"""
+    return path.stem.split("_")[1]
+
+
+OUTPUT_DIR = Path("output/reports/face-recognition/summary")
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+input_path = Path(
+    "output/reports/face-recognition/classification_reports/report_20230820-214937.txt")
+
+with open(input_path.as_posix(), 'r') as f:
     report = f.read()
 
 # Extracting information from report
@@ -43,7 +55,7 @@ df = pd.DataFrame(data, columns=[
 best_combination = df.sort_values(
     by="Weighted Avg F1", ascending=False).iloc[0]
 
-with open("output/reports/report_20230820-162111.csv", 'w') as f:
+with open(OUTPUT_DIR/f"report_{extract_timestamp(input_path)}.csv", 'w') as f:
     f.write(df.to_csv(index=False))
     f.write(f"\n\n\nBest Combination based on Weighted Avg F1:\n")
     f.write(f"Target Percentage: {best_combination['Target Percentage']}\n")
@@ -65,9 +77,11 @@ sns.heatmap(pivot_table, annot=True, cmap="YlGnBu", linewidths=0.5,
             cbar_kws={"label": "Weighted Avg F1 Score"})
 
 plt.title("Performance Comparison based on Weighted Avg F1 Score")
-plt.ylabel("Target Percentage")
+ylabel = "Percentage of Target Face in Data Set (%)"
+plt.ylabel(ylabel)
 plt.xlabel("Combination of SMOTE and Face Detection")
-plt.show()
+# plt.show()
+plt.savefig(OUTPUT_DIR/f"heatmap_F1_{extract_timestamp(input_path)}.png")
 
 # Assuming you have already defined 'df' from previous steps
 
@@ -81,6 +95,7 @@ sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
             linewidths=0.5, cbar_kws={"label": "Recall Score"})
 
 plt.title("Performance Comparison based on Recall")
-plt.ylabel("Target Percentage")
+plt.ylabel(ylabel)
 plt.xlabel("Combination of SMOTE and Face Detection")
-plt.show()
+# plt.show()
+plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
