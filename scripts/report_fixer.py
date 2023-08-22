@@ -4,16 +4,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 
+input_path = Path(
+    "output/reports/face-recognition/classification_reports/report_20230820-214937.txt")
+
 
 def extract_timestamp(path: Path):
-    """ example report_20230820-214937.txt return 20230820-214937 as a string"""
+    """ Example report_20230820-214937.txt return 20230820-214937 as a string"""
     return path.stem.split("_")[1]
 
 
-OUTPUT_DIR = Path("output/reports/face-recognition/summary")
+OUTPUT_DIR = Path(
+    f"output/reports/face-recognition/summary/summary_for_{extract_timestamp(input_path)}")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-input_path = Path(
-    "output/reports/face-recognition/classification_reports/report_20230820-214937.txt")
+
 
 with open(input_path.as_posix(), 'r') as f:
     report = f.read()
@@ -99,3 +102,70 @@ plt.ylabel(ylabel)
 plt.xlabel("Combination of SMOTE and Face Detection")
 # plt.show()
 plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
+
+# Plot the heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
+            linewidths=0.5, cbar_kws={"label": "Recall Score"})
+
+plt.title("Performance Comparison based on Recall")
+plt.ylabel(ylabel)
+plt.xlabel("Combination of SMOTE and Face Detection")
+# plt.show()
+plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
+
+# Plot line plot
+plt.figure(figsize=(14, 7))
+sns.lineplot(data=df, x="Target Percentage", y='Weighted Avg F1',
+             hue='SMOTE', style='Face Detection', markers=True, dashes=False)
+plt.title('Weighted Avg F1 Score vs. Target Percentage')
+plt.xlabel('Target Percentage (%)')
+plt.ylabel('Weighted Avg F1 Score')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(
+    OUTPUT_DIR/f"F1_vs_Target_Percentage{extract_timestamp(input_path)}.png")
+
+
+# Visualization 5: Heatmap for correlation between metrics
+
+# Compute the correlation matrix
+corr = df.drop(columns=['SMOTE', 'Face Detection',
+                        'Target Percentage']).corr()
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr, annot=True, cmap='coolwarm', center=0, linewidths=0.5)
+plt.title('Correlation Heatmap of Metrics')
+plt.tight_layout()
+plt.savefig(
+    OUTPUT_DIR/f"heatmap_correlation_{extract_timestamp(input_path)}.png")
+
+
+# Visualization: Pairplot to show relationships and distributions between key metrics
+
+# Selecting key metrics for the pairplot
+selected_columns = ['Not You Precision', 'Not You Recall', 'Not You F1',
+                    'You Precision', 'You Recall', 'You F1',
+                    'Macro Avg F1', 'Weighted Avg F1']
+
+
+"""
+Key Features of the Pairplot:
+Scatter Plots: The off-diagonal plots are scatter plots.
+They show the relationship between two variables. For instance,
+the scatter plot at the intersection of "Not You Precision" (row) and
+"You Precision" (column) visualizes the relationship between these two metrics.
+Distribution Plots: The diagonal plots are distribution plots (kernel density estimates)
+for each metric. They give an idea of how the values for each metric are distributed.
+Visualization of Correlations: Scatter plots in the pairplot provide a visual representation
+of the correlation between pairs of metrics. The tighter and more linear the clustering of points, 
+the stronger the correlation.
+"""
+# Creating the pairplot
+pairplot = sns.pairplot(
+    df[selected_columns], corner=True, diag_kind='kde', plot_kws={'alpha': 0.6})
+pairplot.fig.suptitle(
+    "Pairwise Relationships and Distributions of Key Metrics", y=1.02)
+plt.tight_layout()
+plt.savefig(
+    OUTPUT_DIR/f"pairplot_{extract_timestamp(input_path)}.png")
