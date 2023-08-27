@@ -40,4 +40,7 @@ euclidean_pairs_full = get_three_closest_pairs(euclidean_distances_full)
 manhattan_pairs_full = get_three_closest_pairs(manhattan_distances_full)
 cosine_pairs_full = get_three_closest_pairs(cosine_distances_full)
 
-euclidean_pairs_full, manhattan_pairs_full, cosine_pairs_full
+
+print(f"closest euclidean pairs = {euclidean_pairs_full}")
+print(f"closest manhattan pairs = {manhattan_pairs_full}")
+print(f"closest cosine pairs = {cosine_pairs_full}")
