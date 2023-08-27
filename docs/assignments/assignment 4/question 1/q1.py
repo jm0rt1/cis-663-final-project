@@ -1,46 +1,39 @@
-from scipy.spatial import distance
 import numpy as np
 import pandas as pd
+from scipy.spatial import distance
 
-
-# Loading the provided dataset
-iris_df = pd.read_csv(
-    'docs/assignments/assignment 4/question 1/data.csv', header=None)
-# Adding column names to the dataset
-column_names = ['sepal_length', 'sepal_width',
+DATA_PATH = 'docs/assignments/assignment 4/question 1/data.csv'
+COLUMN_NAMES = ['sepal_length', 'sepal_width',
                 'petal_length', 'petal_width', 'class']
-iris_df.columns = column_names
+METRICS = ['euclidean', 'cityblock', 'cosine']
+
+
+def load_data(path, column_names):
+    df = pd.read_csv(path, header=None)
+    df.columns = column_names
+    return df
+
+
+def compute_pairwise_distances(data, metric):
+    return distance.squareform(distance.pdist(data, metric=metric))
 
 
 def get_three_closest_pairs(dist_matrix):
-    # We set the diagonal to a high value to avoid considering the distance of a point to itself
     np.fill_diagonal(dist_matrix, np.inf)
-
-    # Getting the indices of the sorted distances
     sorted_indices = np.dstack(np.unravel_index(
         np.argsort(dist_matrix.ravel()), dist_matrix.shape))[0]
-
-    # Extracting the three closest pairs
-    three_closest = sorted_indices[:3]
-
-    return [(i, j) for i, j in three_closest]
+    return [(i, j) for i, j in sorted_indices[:3]]
 
 
-# Computing pairwise distances for each metric using the full dataset
-data_points_full = iris_df.iloc[:, :4].values
-euclidean_distances_full = distance.squareform(
-    distance.pdist(data_points_full, metric='euclidean'))
-manhattan_distances_full = distance.squareform(
-    distance.pdist(data_points_full, metric='cityblock'))
-cosine_distances_full = distance.squareform(
-    distance.pdist(data_points_full, metric='cosine'))
+def main():
+    iris_df = load_data(DATA_PATH, COLUMN_NAMES)
+    data_points = iris_df.iloc[:, :4].values
 
-# Getting the three closest pairs for each metric using the full dataset
-euclidean_pairs_full = get_three_closest_pairs(euclidean_distances_full)
-manhattan_pairs_full = get_three_closest_pairs(manhattan_distances_full)
-cosine_pairs_full = get_three_closest_pairs(cosine_distances_full)
+    for metric in METRICS:
+        distances = compute_pairwise_distances(data_points, metric)
+        closest_pairs = get_three_closest_pairs(distances)
+        print(f"closest {metric} pairs = {closest_pairs}")
 
 
-print(f"closest euclidean pairs = {euclidean_pairs_full}")
-print(f"closest manhattan pairs = {manhattan_pairs_full}")
-print(f"closest cosine pairs = {cosine_pairs_full}")
+if __name__ == "__main__":
+    main()
