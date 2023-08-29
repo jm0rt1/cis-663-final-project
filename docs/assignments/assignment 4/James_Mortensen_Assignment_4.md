@@ -1,6 +1,6 @@
 ## Question 1
 
-I answer the 3 parts to the question via the code below:
+I answer the 3 parts to the question via the code below. Luckily scipy provides a function that can do the heavy lifting for us, `scipy.spatial.distance.pdist`. This function computes the pairwise distances between all points in a dataset. The `metric` parameter allows us to specify the distance metric to use. The `scipy.spatial.distance.squareform` function converts the pairwise distances into a square matrix.
 
 ```python
 import numpy as np
@@ -46,6 +46,7 @@ if __name__ == "__main__":
 
 The output of the code above is shown below, each pair is 
 
+cityblock distance = manhattan distance
 
 ```
 closest euclidean pairs = [(9, 37), (142, 101), (34, 9)]
@@ -129,7 +130,7 @@ P(Pear|Input3) = 0.0931
 ```
 
 ## Question 3
-**3a)**
+**a)**
 
 The ROC (Receiver Operating Characteristic) curve is a graphical representation of the performance of a binary classification model. Specifically, it represents the trade-off between the true positive rate (sensitivity) and the false positive rate (1 - specificity). 
 
@@ -139,7 +140,7 @@ A point on the ROC curve corresponds to a particular decision threshold of the c
 
 When you adjust the threshold of the classifier (e.g., the probability threshold in probabilistic classifiers), you move along the ROC curve.
 
-**3b)**
+**b)**
 
 When comparing two ROC curves:
 - A curve that is more to the top-left corner of the plot is better. This indicates a higher true positive rate for a given false positive rate or vice versa.
@@ -147,7 +148,11 @@ When comparing two ROC curves:
 
 In essence, the better model's ROC curve will have more area under it and will climb faster toward the top-left of the chart.
 
-**3c)**
+The curve that is showing a better model here is A, based on these two criteria.
+
+
+
+**c)**
 
 For a random guess in a binary classification:
 - The ROC curve would be a diagonal line running from the bottom-left corner to the top-right corner of the ROC space. This is often referred to as the "line of no discrimination."
@@ -193,12 +198,16 @@ Typically, an ROC curve is used to visualize the trade-offs between TP and FP ra
 
 * Raising the threshold will decrease both the TP and FP rates. This makes it harder for both legitimate users and imposters to gain access.
 
-Given the high cost of false negatives, you'd likely want to set a threshold that's relatively low. This will allow more users (and unfortunately, more imposters) in, but the financial cost of the occasional imposter is outweighed by the large cost of rejecting a legitimate user.
+Given the high cost of false negatives, one would likely want to set a threshold that's relatively low. This will allow more users (and unfortunately, more imposters) in, but the financial cost of the occasional imposter is outweighed by the large cost of rejecting a legitimate user.
 
 **Conclusion**:
 Choose an algorithm that allows you to control the threshold and has a good balance of TP and FP in the desired range. Set the threshold such that the FN rate is minimized, even if it means a slightly higher FP rate. It might be useful to continuously monitor the rates and adjust as needed, especially if there are changes in user behavior or the imposter rate.
 
+The algorithms that produce this outcome TS2-norm, due to its sharp drop in False Rejects at the cost of a slight increase in False Accepts. It is the curve which also pushes closest to the lower right, however the threshold may be reasonable at a .2 False Accept rate.
+
+
 ## Question 5
+
 Given the fiducial points and their corresponding times, you can extract the features you listed (RQ, RP’, RP, RL’, RS, RS’, RT, RT’) by subtracting the appropriate fiducial point times from each other.
 
 Here's how you can calculate each feature:
