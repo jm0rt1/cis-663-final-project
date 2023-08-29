@@ -1,3 +1,6 @@
+# Assignment 4
+Jamie Mortensen
+
 ## Question 1
 
 I answer the 3 parts to the question via the code below. Luckily scipy provides a function that can do the heavy lifting for us, `scipy.spatial.distance.pdist`. This function computes the pairwise distances between all points in a dataset. The `metric` parameter allows us to specify the distance metric to use. The `scipy.spatial.distance.squareform` function converts the pairwise distances into a square matrix.
@@ -252,4 +255,13 @@ for feature, value in features.items():
 
 ```
 
-This script will output the computed features (intervals) based on the given fiducial point times.
+```
+RQ = 0.20 s
+RP-prime = 0.40 s
+RP = 0.60 s
+RL-prime = 0.90 s
+RS = -0.10 s
+RS-prime = -0.40 s
+RT = -0.90 s
+RT-prime = -1.10 sy
+```
