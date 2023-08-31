@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import pathlib
 import shutil
-from src.face_detection.report import generate_html_report
 from src.shared.settings import GlobalSettings as gs
 
 FACE_DETECTOR_REPORT_DIR = gs.OUTPUT_DIR / \

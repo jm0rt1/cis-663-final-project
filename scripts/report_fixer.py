@@ -5,7 +5,7 @@ import pandas as pd
 import re
 
 input_path = Path(
-    "output/reports/face-recognition/classification_reports/report_20230820-214937.txt")
+    "output/reports/face-recognition/classification_reports/report_20230831-175957.txt")
 
 
 def extract_timestamp(path: Path):
