@@ -1,3 +1,4 @@
+import enum
 from pathlib import Path
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -6,6 +7,21 @@ import re
 
 input_path = Path(
     "output/reports/face-recognition/classification_reports/report_20230831-175957.txt")
+
+
+class Columns(str, enum.Enum):
+    """Columns in the report"""
+    TARGET_PERCENTAGE = "Target Percentage"
+    SMOTE = "SMOTE"
+    FACE_DETECTION = "Face Detection"
+    NOT_YOU_PRECISION = "Not You Precision"
+    NOT_YOU_RECALL = "Not You Recall"
+    NOT_YOU_F1 = "Not You F1"
+    YOU_PRECISION = "You Precision"
+    YOU_RECALL = "You Recall"
+    YOU_F1 = "You F1"
+    MACRO_AVG_F1 = "Macro Avg F1"
+    WEIGHTED_AVG_F1 = "Weighted Avg F1"
 
 
 def extract_timestamp(path: Path):
@@ -103,16 +119,27 @@ plt.xlabel("Combination of SMOTE and Face Detection")
 # plt.show()
 plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
 
-# Plot the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
-            linewidths=0.5, cbar_kws={"label": "Recall Score"})
+# Create a pivot table for the heatmap
 
-plt.title("Performance Comparison based on Recall")
-plt.ylabel(ylabel)
-plt.xlabel("Combination of SMOTE and Face Detection")
-# plt.show()
-plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
+
+def plot_heatmap(input_path: Path, df: pd.DataFrame, ylabel, target_metric: Columns):
+    pivot_table_recall = df.pivot_table(index="Target Percentage", columns=[
+        "SMOTE", "Face Detection"], values=target_metric)
+    # Plot the heatmap
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
+                linewidths=0.5, cbar_kws={"label": target_metric})  # type: ignore
+
+    plt.title(f"Performance Comparison based on {target_metric.value}")
+    plt.ylabel(ylabel)
+    plt.xlabel("Combination of SMOTE and Face Detection")
+
+    plt.savefig(
+        OUTPUT_DIR/f"heatmap_{target_metric.lower().replace(' ', '_')}_{extract_timestamp(input_path)}.png")
+
+
+plot_heatmap(input_path, df, ylabel, Columns.NOT_YOU_PRECISION)
+plot_heatmap(input_path, df, ylabel, Columns.YOU_PRECISION)
 
 # Plot line plot
 plt.figure(figsize=(14, 7))
