@@ -85,50 +85,22 @@ with open(OUTPUT_DIR/f"report_{extract_timestamp(input_path)}.csv", 'w') as f:
 
 # Assuming you have already defined 'df' from previous steps
 
-# Create a pivot table for the heatmap
-pivot_table = df.pivot_table(index="Target Percentage", columns=[
-                             "SMOTE", "Face Detection"], values="Weighted Avg F1")
-
-
-# Plot the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(pivot_table, annot=True, cmap="YlGnBu", linewidths=0.5,
-            cbar_kws={"label": "Weighted Avg F1 Score"})
-
-plt.title("Performance Comparison based on Weighted Avg F1 Score")
-ylabel = "Percentage of Target Face in Data Set (%)"
-plt.ylabel(ylabel)
-plt.xlabel("Combination of SMOTE and Face Detection")
-# plt.show()
-plt.savefig(OUTPUT_DIR/f"heatmap_F1_{extract_timestamp(input_path)}.png")
 
 # Assuming you have already defined 'df' from previous steps
 
-# Create a pivot table for the heatmap
-pivot_table_recall = df.pivot_table(index="Target Percentage", columns=[
-                                    "SMOTE", "Face Detection"], values="You Recall")
-
-# Plot the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
-            linewidths=0.5, cbar_kws={"label": "Recall Score"})
-
-plt.title("Performance Comparison based on Recall")
-plt.ylabel(ylabel)
-plt.xlabel("Combination of SMOTE and Face Detection")
-# plt.show()
-plt.savefig(OUTPUT_DIR/f"heatmap_recall_{extract_timestamp(input_path)}.png")
 
 # Create a pivot table for the heatmap
 
 
-def plot_heatmap(input_path: Path, df: pd.DataFrame, ylabel, target_metric: Columns):
+def plot_heatmap(input_path: Path, df: pd.DataFrame, target_metric: Columns):
+    ylabel = "Percentage of Target Face in Data Set (%)"
+
     pivot_table_recall = df.pivot_table(index="Target Percentage", columns=[
-        "SMOTE", "Face Detection"], values=target_metric)
+        "SMOTE", "Face Detection"], values=target_metric.value)
     # Plot the heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(pivot_table_recall, annot=True, cmap="YlGnBu",
-                linewidths=0.5, cbar_kws={"label": target_metric})  # type: ignore
+                linewidths=0.5, cbar_kws={"label": target_metric.value})  # type: ignore
 
     plt.title(f"Performance Comparison based on {target_metric.value}")
     plt.ylabel(ylabel)
@@ -138,8 +110,22 @@ def plot_heatmap(input_path: Path, df: pd.DataFrame, ylabel, target_metric: Colu
         OUTPUT_DIR/f"heatmap_{target_metric.lower().replace(' ', '_')}_{extract_timestamp(input_path)}.png")
 
 
-plot_heatmap(input_path, df, ylabel, Columns.NOT_YOU_PRECISION)
-plot_heatmap(input_path, df, ylabel, Columns.YOU_PRECISION)
+# Precisions
+plot_heatmap(input_path, df, Columns.NOT_YOU_PRECISION)
+plot_heatmap(input_path, df, Columns.YOU_PRECISION)
+
+# Recalls
+plot_heatmap(input_path, df, Columns.NOT_YOU_RECALL)
+plot_heatmap(input_path, df, Columns.YOU_RECALL)
+
+# F1 Scores
+plot_heatmap(input_path, df, Columns.YOU_F1)
+plot_heatmap(input_path, df, Columns.NOT_YOU_F1)
+
+# Average F1 Scores
+plot_heatmap(input_path, df, Columns.MACRO_AVG_F1)
+plot_heatmap(input_path, df, Columns.WEIGHTED_AVG_F1)
+
 
 # Plot line plot
 plt.figure(figsize=(14, 7))
