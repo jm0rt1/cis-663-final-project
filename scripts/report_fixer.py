@@ -50,7 +50,9 @@ for section in sections:
     face_detection = True if "Face Detection Used = True" in section else False
 
     not_you = re.search(r"Not You\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)", section)
-    you = re.search(r"You\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)", section)
+    you = re.search(
+        r"^\s*You\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)", section, re.MULTILINE)
+
     macro_avg = re.search(r"macro avg\s+[\d.]+\s+[\d.]+\s+([\d.]+)", section)
     weighted_avg = re.search(
         r"weighted avg\s+[\d.]+\s+[\d.]+\s+([\d.]+)", section)
