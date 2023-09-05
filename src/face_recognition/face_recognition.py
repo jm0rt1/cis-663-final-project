@@ -142,8 +142,3 @@ class ReportFileManager():
         """Get the commit ID of the current git repository."""
         import subprocess
         return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
-
-
-if __name__ == "__main__":
-    print("Running experiment with full LFW dataset...")
-    run_experiment(10, "tests/test_files/inputs/tom_cruise")
