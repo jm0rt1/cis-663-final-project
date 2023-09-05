@@ -54,24 +54,6 @@ class FaceRecognizer:
         return self.clf.predict(face_pca)
 
 
-def run_experiment(percentage: int,  directory: str, save_detection_report: bool) -> None:
-    """
-    Run a face recognition experiment.
-
-    Args:
-        n_components (int): Number of principal components.
-        directory (str): Path to the directory containing test images.
-    """
-    # dataset = ExtendedFaceDataset(n_components, directory)
-
-    dataset_with_face_detection = ExtendedFaceDataset(percentage, directory, FaceDetector(
-        'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml', save_detection_report), save_detection_report)
-    dataset_no_face_detection = ExtendedFaceDataset(percentage, directory)
-
-    run_data_through_model(percentage, dataset_with_face_detection)
-    run_data_through_model(percentage, dataset_no_face_detection)
-
-
 def run_data_through_model(percentage: int, dataset: ExtendedFaceDataset):
     x, y, target_names = dataset.get_data()
     X_train, X_test, y_train, y_test = train_test_split(
@@ -142,3 +124,21 @@ class ReportFileManager():
         """Get the commit ID of the current git repository."""
         import subprocess
         return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+
+
+def run_experiment(percentage: int,  directory: str, save_detection_report: bool) -> None:
+    """
+    Run a face recognition experiment.
+
+    Args:
+        n_components (int): Number of principal components.
+        directory (str): Path to the directory containing test images.
+    """
+    # dataset = ExtendedFaceDataset(n_components, directory)
+
+    dataset_with_face_detection = ExtendedFaceDataset(percentage, directory, FaceDetector(
+        'venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml', save_detection_report), save_detection_report)
+    dataset_no_face_detection = ExtendedFaceDataset(percentage, directory)
+
+    run_data_through_model(percentage, dataset_with_face_detection)
+    run_data_through_model(percentage, dataset_no_face_detection)
