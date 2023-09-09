@@ -6,10 +6,8 @@ from abc import ABC, abstractmethod
 from sklearn.datasets import fetch_lfw_people
 from sklearn.model_selection import train_test_split
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
 
 from src.face_detection.face_detection import FaceDetector
-import cv2
 
 
 def preprocess_image(img_path_or_array, target_size=(47, 62)):  # Note the switch here
