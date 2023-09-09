@@ -117,11 +117,11 @@ def run_data_through_model(percentage: int, dataset: ExtendedFaceDataset):
         target_names, y_test, y_pred_resampled, percentage, True, True if dataset.detector is not None else False)
 
 
-def train_and_test(X_train_resampled, y_train_resampled, X_test_resampled):
+def train_and_test(X_train, y_train, X_test):
     recognizer = FaceRecognizer()
-    recognizer.train(X_train_resampled, y_train_resampled)
+    recognizer.train(X_train, y_train)
 
-    y_pred = recognizer.predict(X_test_resampled)
+    y_pred = recognizer.predict(X_test)
     return y_pred
 
 
