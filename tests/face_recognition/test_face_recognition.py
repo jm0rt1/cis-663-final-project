@@ -1,9 +1,10 @@
 import unittest
 import numpy as np
 import cv2
-from face_detection.face_detection import FaceDetector
+from src.experiment.experiment import run_experiment
+from src.face_detection.face_detection import FaceDetector
 # Import your classes here
-from src.face_recognition.face_recognition import FaceRecognizer, run_experiment
+from src.face_recognition.face_recognition import FaceRecognizer
 
 
 class TestFaceDetector(unittest.TestCase):

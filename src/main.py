@@ -3,7 +3,7 @@ import logging.handlers
 import os
 
 from src.shared.settings import GlobalSettings
-from src.face_recognition.face_recognition import run_experiment
+from src.experiment.experiment import run_experiment
 
 
 def initialize_logging() -> None:
