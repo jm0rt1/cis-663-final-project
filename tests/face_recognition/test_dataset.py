@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from src.face_recognition.data_set import ExtendedFaceDataset, FaceDataset
+from src.data_set.data_set import ExtendedFaceDataset, FaceDataset
 
 
 class TestFaceDataset(unittest.TestCase):
