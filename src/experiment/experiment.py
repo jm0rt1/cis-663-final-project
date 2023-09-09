@@ -27,10 +27,10 @@ def run_data_through_model(percentage: int, dataset: ExtendedFaceDataset):
     else:
         target_names = ['Not You', 'You']
 
-    ReportFileManager().add_classification_report_report_to_file(
+    ReportFileManager().add_classification_report_to_file(
         target_names, y_test, y_pred, percentage, False, True if dataset.detector is not None else False)
 
-    ReportFileManager().add_classification_report_report_to_file(
+    ReportFileManager().add_classification_report_to_file(
         target_names, y_test, y_pred_resampled, percentage, True, True if dataset.detector is not None else False)
 
 

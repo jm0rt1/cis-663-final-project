@@ -66,7 +66,7 @@ class ReportFileManager():
                 f.write(f"Commit ID: {self.get_commit_id()}\n\n")
             ReportFileManager.header_written = True
 
-    def add_classification_report_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool, face_detection: bool):
+    def add_classification_report_to_file(self, target_names, y_test, y_pred, percentage: float, resampled: bool, face_detection: bool):
         """Output classification report to file."""
 
         classification_str = classification_report(
