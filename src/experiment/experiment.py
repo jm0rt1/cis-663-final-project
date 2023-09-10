@@ -52,7 +52,7 @@ def run_experiment(percentage: int,  directory: str, save_detection_report: bool
     run_data_through_model(percentage, dataset_no_face_detection)
 
 
-def train_and_test(X_train, y_train, X_test):
+def train_and_test(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray):
     recognizer = FaceRecognizer()
     recognizer.train(X_train, y_train)
 
