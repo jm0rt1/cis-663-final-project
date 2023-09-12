@@ -32,7 +32,7 @@ class TestExtendedFaceDataset(unittest.TestCase):
         label_set = set(labels)
         self.assertIsInstance(images, np.ndarray)
         self.assertIsInstance(labels, np.ndarray)
-        self.assertIsInstance(names, np.ndarray)
+        self.assertIsInstance(names, list)
         self.assertGreater(len(images), 0)
         self.assertEqual(len(images), len(labels))
         self.assertIn('You', names)

@@ -50,7 +50,7 @@ class TestRunExperiment(unittest.TestCase):
         # Here we simply check if run_experiment runs without throwing any error.
         # You may wish to write more sophisticated tests checking the printed output or other side effects.
         try:
-            run_experiment(10, "tests/test_files/inputs/tom_cruise")
+            run_experiment(10, "tests/test_files/inputs/tom_cruise", False)
             experiment_runs = True
         except:
             experiment_runs = False
